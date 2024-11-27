@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta Information -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page Title -->
+    <title>Vital Watchers Dashboard</title>
+
+    <!-- Bootswatch Theme: Cerulean -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cerulean/bootstrap.min.css">
+
+    <!-- Custom Styles -->
+    <style>
+        /* Hero Section Styling */
+        .hero-section {
+            background-color: #f8f9fa;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        /* Feature Section */
+        .features-section {
+            padding: 3rem 0;
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 3rem 0;
+            background-color: #e9ecef;
+        }
+
+        .stat-box {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand" href="index.html">
+            <i class="fas fa-heartbeat"></i> Vital Watchers
+        </a>
+
+        <!-- Navbar Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="patients.html">Patients</a></li>
+                <li class="nav-item"><a class="nav-link" href="alerts.html">Alerts</a></li>
+                <li class="nav-item"><a class="nav-link" href="thresholds.html">Thresholds</a></li>
+                <li class="nav-item"><a class="nav-link" href="reports.html">Reports</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <img src="https://via.placeholder.com/180" alt="Vital Watchers Logo" class="mb-4">
+    <h1 class="display-4">Vital Watchers Dashboard</h1>
+    <p class="lead">Empowering healthcare providers with remote monitoring and personalized patient insights.</p>
+    <div class="btn-group mt-4">
+        <a href="patients.html" class="btn btn-primary btn-lg">View Patients</a>
+        <a href="alerts.html" class="btn btn-primary btn-lg">View Alerts</a>
+        <a href="reports.html" class="btn btn-primary btn-lg">Generate Reports</a>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="features-section">
+    <div class="container">
+        <h2 class="text-center mb-5">Features</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <h3><i class="fas fa-users"></i> Patient Management</h3>
+                    <p>Monitor and manage patient profiles, health summaries, and vitals efficiently.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <h3><i class="fas fa-bell"></i> Alerts System</h3>
+                    <p>Receive real-time alerts for abnormal vitals and take timely action.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <h3><i class="fas fa-file-alt"></i> Reports & Insights</h3>
+                    <p>Generate comprehensive reports for patient health trends and analysis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Section -->
+<div class="stats-section">
+    <div class="container">
+        <h2 class="text-center mb-5">Real-Time Statistics</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h3>120</h3>
+                    <p>Active Patients</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h3>35</h3>
+                    <p>Active Alerts</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h3>50%</h3>
+                    <p>Threshold Compliance</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h3>15</h3>
+                    <p>Pending Reports</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p class="text-muted">Vital Watchers © 2024 - Remote Monitoring for Healthcare Providers</p>
+    </div>
+</footer>
+
+<!-- Font Awesome Icons -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+<!-- Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
