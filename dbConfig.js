@@ -1,19 +1,26 @@
-const mysql = require('mysql2'); // Use mysql2 instead of mysql
+const mysql = require('mysql2/promise');
 
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT || 3306,
+// Create a connection pool
+const pool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost', // Database host
+    user: process.env.DB_USER || 'root',      // Database username
+    password: process.env.DB_PASSWORD || '',  // Database password
+    database: process.env.DB_NAME || 'vital_watchers', // Database name
+    port: process.env.DB_PORT || 3306,        // MySQL port
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
 });
 
-connection.connect((err) => {
-    if (err) {
-        console.error('Error connecting to the database:', err.message);
-        return;
+// Test the connection on pool creation
+(async () => {
+    try {
+        const connection = await pool.getConnection(); // Get a connection
+        console.log('Connected to the MySQL database!');
+        connection.release(); // Release the connection back to the pool
+    } catch (err) {
+        console.error('Error connecting to the MySQL database:', err.message);
     }
-    console.log('Connected to the MySQL database!');
-});
+})();
 
-module.exports = connection;
+module.exports = pool;
