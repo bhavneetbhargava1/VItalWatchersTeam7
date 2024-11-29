@@ -125,6 +125,7 @@
                 <th>Alert Time</th>
                 <th>Device Status</th>
                 <th>Monitoring Location</th>
+                <th>Provider Name</th> <!-- New column for Provider Name -->
             </tr>
             </thead>
             <tbody id="highRiskPatientsTable">
@@ -160,7 +161,7 @@
             if (data.length === 0) {
                 const row = document.createElement('tr');
                 const cell = document.createElement('td');
-                cell.colSpan = 13;
+                cell.colSpan = 14; // Update this to 14 to account for the new column
                 cell.textContent = 'No high-risk patients found.';
                 cell.classList.add('text-center');
                 row.appendChild(cell);
@@ -185,7 +186,8 @@
                     'Alert_Level',
                     'Alert_Time',
                     'Device_Status',
-                    'Monitoring_Location'
+                    'Monitoring_Location',
+                    'Provider_Name' // Added provider name field here
                 ];
 
                 relevantColumns.forEach(key => {

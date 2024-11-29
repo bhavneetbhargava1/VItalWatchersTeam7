@@ -21,6 +21,9 @@ router.get('/high-risk-patients', async (req, res) => {
                 PD.Patch_status AS Device_Status,
                 PD.Patient_address AS Monitoring_Location,
 
+                -- Join the PROVIDERS table to get the provider's information
+                CONCAT(PR.First_name, ' ', PR.Last_name) AS Provider_Name,
+
                 -- Check if vitals exceed thresholds
                 CASE
                     WHEN V.Blood_pressure < (SELECT Minimum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Blood Pressure' AND Vital_level = 'BP_Critical') OR
@@ -56,12 +59,15 @@ router.get('/high-risk-patients', async (req, res) => {
                     INNER JOIN vital_watchers.ALERTS AS A ON P.Patient_ID = A.Patient_ID
                     INNER JOIN vital_watchers.VITALS AS V ON P.Patient_ID = V.Patient_ID
                     LEFT JOIN vital_watchers.PATCH_DEVICE AS PD ON P.Patient_ID = PD.Patient_ID
+                    LEFT JOIN vital_watchers.HEALTH_SUMMARY AS HS ON P.Patient_ID = HS.Patient_ID  -- Join with HEALTH_SUMMARY
+                    LEFT JOIN vital_watchers.PROVIDERS AS PR ON HS.Provider_ID = PR.Provider_ID  -- Join with PROVIDERS using Provider_ID from HEALTH_SUMMARY
             WHERE
                 A.Resolved = 'F' -- Include only unresolved alerts
               AND A.Alert_type IN ('CRITICAL', 'HIGH') -- Include only high or critical alerts
             ORDER BY
                 A.Time_stamp DESC;
         `;
+
 
         // Execute the query
         const [rows] = await pool.query(sqlQuery);
