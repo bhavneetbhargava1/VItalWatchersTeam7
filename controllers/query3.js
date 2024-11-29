@@ -19,7 +19,38 @@ router.get('/high-risk-patients', async (req, res) => {
                 A.Alert_type AS Alert_Level,
                 A.Time_stamp AS Alert_Time,
                 PD.Patch_status AS Device_Status,
-                PD.Patient_address AS Monitoring_Location
+                PD.Patient_address AS Monitoring_Location,
+
+                -- Check if vitals exceed thresholds
+                CASE
+                    WHEN V.Blood_pressure < (SELECT Minimum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Blood Pressure' AND Vital_level = 'BP_Critical') OR
+                         V.Blood_pressure > (SELECT Maximum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Blood Pressure' AND Vital_level = 'BP_Critical')
+                        THEN 1 ELSE 0
+                    END AS Blood_Pressure_Exceeded,
+
+                CASE
+                    WHEN V.Heart_rate < (SELECT Minimum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Heart Rate' AND Vital_level = 'HR_Critical') OR
+                         V.Heart_rate > (SELECT Maximum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Heart Rate' AND Vital_level = 'HR_Critical')
+                        THEN 1 ELSE 0
+                    END AS Heart_Rate_Exceeded,
+
+                CASE
+                    WHEN V.Body_temperature < (SELECT Minimum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Body Temperature' AND Vital_level = 'BT_High Fever') OR
+                         V.Body_temperature > (SELECT Maximum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Body Temperature' AND Vital_level = 'BT_High Fever')
+                        THEN 1 ELSE 0
+                    END AS Body_Temperature_Exceeded,
+
+                CASE
+                    WHEN V.Oxygen_saturation < (SELECT Minimum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Oxygen Saturation' AND Vital_level = 'OS_Critical') OR
+                         V.Oxygen_saturation > (SELECT Maximum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Oxygen Saturation' AND Vital_level = 'OS_Critical')
+                        THEN 1 ELSE 0
+                    END AS Oxygen_Saturation_Exceeded,
+
+                CASE
+                    WHEN V.Breathing_rate < (SELECT Minimum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Breathing Rate' AND Vital_level = 'BR_Critical') OR
+                         V.Breathing_rate > (SELECT Maximum_value FROM vital_watchers.VITAL_THRESHOLDS WHERE Vital_category = 'Breathing Rate' AND Vital_level = 'BR_Critical')
+                        THEN 1 ELSE 0
+                    END AS Breathing_Rate_Exceeded
             FROM
                 vital_watchers.PATIENTS AS P
                     INNER JOIN vital_watchers.ALERTS AS A ON P.Patient_ID = A.Patient_ID
@@ -28,58 +59,6 @@ router.get('/high-risk-patients', async (req, res) => {
             WHERE
                 A.Resolved = 'F' -- Include only unresolved alerts
               AND A.Alert_type IN ('CRITICAL', 'HIGH') -- Include only high or critical alerts
-              AND (
-                -- Blood Pressure: Critical levels
-                V.Blood_pressure < (
-                    SELECT Minimum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Blood Pressure' AND Vital_level = 'BP_Critical'
-                ) OR V.Blood_pressure > (
-                    SELECT Maximum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Blood Pressure' AND Vital_level = 'BP_Critical'
-                )
-                    -- Heart Rate: Critical levels
-                    OR V.Heart_rate < (
-                    SELECT Minimum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Heart Rate' AND Vital_level = 'HR_Critical'
-                ) OR V.Heart_rate > (
-                    SELECT Maximum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Heart Rate' AND Vital_level = 'HR_Critical'
-                )
-                    -- Body Temperature: Critical levels
-                    OR V.Body_temperature < (
-                    SELECT Minimum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Body Temperature' AND Vital_level = 'BT_High Fever'
-                ) OR V.Body_temperature > (
-                    SELECT Maximum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Body Temperature' AND Vital_level = 'BT_High Fever'
-                )
-                    -- Oxygen Saturation: Critical levels
-                    OR V.Oxygen_saturation < (
-                    SELECT Minimum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Oxygen Saturation' AND Vital_level = 'OS_Critical'
-                ) OR V.Oxygen_saturation > (
-                    SELECT Maximum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Oxygen Saturation' AND Vital_level = 'OS_Critical'
-                )
-                    -- Breathing Rate: Critical levels
-                    OR V.Breathing_rate < (
-                    SELECT Minimum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Breathing Rate' AND Vital_level = 'BR_Critical'
-                ) OR V.Breathing_rate > (
-                    SELECT Maximum_value
-                    FROM vital_watchers.VITAL_THRESHOLDS
-                    WHERE Vital_category = 'Breathing Rate' AND Vital_level = 'BR_Critical'
-                )
-                )
             ORDER BY
                 A.Time_stamp DESC;
         `;
@@ -96,3 +75,7 @@ router.get('/high-risk-patients', async (req, res) => {
 });
 
 module.exports = router;
+
+
+
+

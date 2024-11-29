@@ -57,6 +57,31 @@
             background-color: var(--medium-blue);
             border-color: var(--royal-blue);
         }
+
+        /* Highlight classes for abnormal vitals */
+        .highlight-normal {
+            background-color: #4bac32 !important; /* Light green */
+        }
+
+        .highlight-elevated {
+            background-color: #f4a261 !important; /* Yellow */
+        }
+
+        .highlight-high {
+            background-color: #e76f51 !important; /* Orange */
+        }
+
+        .highlight-very-high {
+            background-color: #d62828 !important; /* Red */
+        }
+
+        .highlight-critical {
+            background-color: #9d0208 !important; /* Maroon */
+        }
+
+        .highlight-low {
+            background-color: #a8dadc !important; /* Light blue */
+        }
     </style>
 </head>
 <body>
@@ -147,9 +172,81 @@
                 const row = document.createElement('tr');
 
                 // Loop through all keys in the patient object to dynamically populate cells
-                Object.entries(patient).forEach(([key, value]) => {
+                const relevantColumns = [
+                    'Patient_ID',
+                    'Patient_Name',
+                    'Patient_Age',
+                    'Medical_History',
+                    'Blood_pressure',
+                    'Heart_rate',
+                    'Body_temperature',
+                    'Oxygen_saturation',
+                    'Breathing_rate',
+                    'Alert_Level',
+                    'Alert_Time',
+                    'Device_Status',
+                    'Monitoring_Location'
+                ];
+
+                relevantColumns.forEach(key => {
                     const cell = document.createElement('td');
-                    cell.textContent = value === null ? 'N/A' : value;
+                    cell.textContent = patient[key] === null ? 'N/A' : patient[key];
+
+                    // Apply highlights for abnormal vitals
+                    if (key === 'Blood_pressure') {
+                        if (patient[key] >= 90 && patient[key] <= 120) {
+                            cell.classList.add('highlight-normal');
+                        } else if (patient[key] >= 121 && patient[key] <= 129) {
+                            cell.classList.add('highlight-elevated');
+                        } else if (patient[key] >= 130 && patient[key] <= 139) {
+                            cell.classList.add('highlight-high');
+                        } else if (patient[key] >= 140 && patient[key] <= 180) {
+                            cell.classList.add('highlight-very-high');
+                        } else if (patient[key] > 180) {
+                            cell.classList.add('highlight-critical');
+                        }
+                    }
+
+                    if (key === 'Heart_rate') {
+                        if (patient[key] >= 60 && patient[key] <= 100) {
+                            cell.classList.add('highlight-normal');
+                        } else if (patient[key] < 60) {
+                            cell.classList.add('highlight-low');
+                        } else if (patient[key] > 100) {
+                            cell.classList.add('highlight-high');
+                        }
+                    }
+
+                    if (key === 'Body_temperature') {
+                        if (patient[key] < 96.9) {
+                            cell.classList.add('highlight-low');
+                        } else if (patient[key] >= 100.5) {
+                            cell.classList.add('highlight-very-high');
+                        } else {
+                            cell.classList.add('highlight-normal');
+                        }
+                    }
+
+                    if (key === 'Oxygen_saturation') {
+                        if (patient[key] >= 95.0) {
+                            cell.classList.add('highlight-normal');
+                        } else if (patient[key] >= 90.0 && patient[key] < 95.0) {
+                            cell.classList.add('highlight-low');
+                        } else {
+                            cell.classList.add('highlight-critical');
+                        }
+                    }
+
+                    if (key === 'Breathing_rate') {
+                        if (patient[key] >= 30.1) {
+                            cell.classList.add('highlight-critical');
+                        } else if (patient[key] > 20.0) {
+                            cell.classList.add('highlight-high');
+                        } else {
+                            cell.classList.add('highlight-normal');
+                        }
+                    }
+
                     row.appendChild(cell);
                 });
 
@@ -161,6 +258,7 @@
         }
     });
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
