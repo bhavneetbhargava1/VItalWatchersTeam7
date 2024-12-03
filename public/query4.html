@@ -12,50 +12,250 @@
             --cream: #f1faee;
             --medium-blue: #457b9d;
             --highlight-blue: #e6f3f5;
+            --active-green: #4CAF50;
+            --inactive-red: #ff4444;
+            --maintenance-orange: #ffa726;
+            --row-height: 60px;
+            --perspective: 1000px;
         }
 
         body {
             background-color: var(--cream);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .navbar {
             background-color: var(--royal-blue) !important;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
         }
 
         .navbar a {
             color: var(--cream) !important;
+            transition: color 0.3s ease;
         }
 
         .navbar a:hover {
             color: var(--light-blue) !important;
         }
 
+        .main-content {
+            flex: 1;
+            padding-bottom: 2rem;
+        }
+
+        /* Enhanced Controls */
+        .controls-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transform-style: preserve-3d;
+            transform: translateZ(20px);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-select, .form-control {
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:hover, .form-control:hover {
+            border-color: var(--royal-blue);
+            transform: translateY(-2px);
+        }
+
+        .form-select:focus, .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(29, 53, 87, 0.2);
+            border-color: var(--royal-blue);
+        }
+
+        /* 3D Table Container */
+        .table-container {
+            perspective: var(--perspective);
+            perspective-origin: center;
+            padding: 20px;
+            overflow-x: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
         .table {
-            background-color: #fff;
-            border: 1px solid var(--light-blue);
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            background: transparent;
+            border: none;
+            margin: 0;
+        }
+
+        .table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .table th {
-            background-color: var(--medium-blue);
-            color: var(--cream);
-        }
-
-        .table tr:hover {
-            background-color: var(--highlight-blue);
-        }
-
-        .container {
-            margin-top: 2rem;
-        }
-
-        .btn-primary {
             background-color: var(--royal-blue);
-            border-color: var(--medium-blue);
+            color: var(--cream);
+            padding: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-primary:hover {
-            background-color: var(--medium-blue);
-            border-color: var(--royal-blue);
+        .table th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .table tbody tr {
+            height: var(--row-height);
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        .table tbody tr:hover {
+            transform: translateZ(20px) rotateX(2deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .table td {
+            background: white;
+            padding: 15px;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Status Indicators */
+        .status-cell {
+            font-weight: 600;
+            padding: 8px 15px !important;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .status-cell:hover {
+            transform: scale(1.05);
+        }
+
+        .status-active {
+            background: linear-gradient(135deg, var(--active-green), #45a049) !important;
+            color: white !important;
+        }
+
+        .status-inactive {
+            background: linear-gradient(135deg, var(--inactive-red), #cc0000) !important;
+            color: white !important;
+        }
+
+        .status-maintenance {
+            background: linear-gradient(135deg, var(--maintenance-orange), #fb8c00) !important;
+            color: white !important;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) translateZ(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) translateZ(0);
+            }
+        }
+
+        /* Patient Name Styling */
+        .patient-name {
+            font-weight: 600;
+            color: var(--royal-blue);
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .patient-name::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            background: var(--medium-blue);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Device ID Styling */
+        .device-id {
+            font-family: monospace;
+            color: var(--medium-blue);
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* Location Badge */
+        .location-badge {
+            background: var(--highlight-blue);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: var(--royal-blue);
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .location-badge:hover {
+            background: var(--light-blue);
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: var(--royal-blue);
+            color: var(--cream);
+            padding: 1rem 0;
+            margin-top: auto;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--medium-blue);
+            font-weight: 500;
+            background: var(--highlight-blue);
+            border-radius: 10px;
+            margin: 1rem 0;
         }
     </style>
 </head>
@@ -80,59 +280,62 @@
     </div>
 </nav>
 
-<div class="container">
-    <h1 class="text-center">Device Status Overview</h1>
-    <p class="text-center">Below is the list of patch devices and their associated statuses.</p>
-    <div class="d-flex justify-content-between mb-3">
-        <select id="statusFilter" class="form-select" style="width: 200px;">
-            <option value="">All Patch Status</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-            <option value="Maintenance">Maintenance</option>
-        </select>
-        <input type="text" id="searchInput" class="form-control" placeholder="Search by Patient Name" style="width: 300px;">
-    </div>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th>Device ID</th>
-                <th>Patient ID</th>
-                <th>Patient Name</th>
-                <th>Device Status</th>
-                <th>Vital Status</th>
-                <th>Threshold ID</th>
-                <th>Monitoring Location</th>
-            </tr>
-            </thead>
-            <tbody id="deviceStatusTable">
-            <!-- Data will be populated dynamically -->
-            </tbody>
-        </table>
+<div class="main-content">
+    <div class="container">
+        <h1 class="text-center mb-4">Device Status Overview</h1>
+        <p class="text-center mb-4">Below is the list of patch devices and their associated statuses.</p>
+
+        <div class="controls-container">
+            <div class="d-flex justify-content-between align-items-center">
+                <select id="statusFilter" class="form-select" style="width: 200px;">
+                    <option value="">All Patch Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Maintenance">Maintenance</option>
+                </select>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search by Patient Name" style="width: 300px;">
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Device ID</th>
+                    <th>Patient ID</th>
+                    <th>Patient Name</th>
+                    <th>Device Status</th>
+                    <th>Vital Status</th>
+                    <th>Threshold ID</th>
+                    <th>Monitoring Location</th>
+                </tr>
+                </thead>
+                <tbody id="deviceStatusTable">
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<footer class="footer py-4 mt-4">
+<footer class="footer">
     <div class="container text-center">
         <p class="mb-0">VitalWatchers © 2024 - Remote Monitoring for Healthcare Providers</p>
     </div>
 </footer>
 
 <script>
-    let allDevices = []; // Store all devices for filtering
+    let allDevices = [];
 
     document.addEventListener('DOMContentLoaded', async () => {
         const tableBody = document.getElementById('deviceStatusTable');
         const statusFilter = document.getElementById('statusFilter');
         const searchInput = document.getElementById('searchInput');
 
-        // Fetch the data and store it
         try {
             const response = await fetch('/api/query4/device-status-overview');
             allDevices = await response.json();
             renderTable(allDevices);
 
-            // Add event listeners for the filters
             statusFilter.addEventListener('change', () => {
                 const filteredData = filterData();
                 renderTable(filteredData);
@@ -144,41 +347,80 @@
             });
         } catch (error) {
             console.error('Error fetching data:', error);
+            showError('Failed to load device status data. Please try again later.');
         }
 
-        // Filter data based on dropdown and search input
         function filterData() {
             const status = statusFilter.value;
             const search = searchInput.value.toLowerCase();
 
             return allDevices.filter(device => {
                 const matchesStatus = !status || device.Device_Status === status;
-                const matchesSearch = !search || device.Patient_Name.toLowerCase().includes(search);
+                const matchesSearch = !search ||
+                    device.Patient_Name.toLowerCase().includes(search) ||
+                    device.Device_ID.toLowerCase().includes(search);
                 return matchesStatus && matchesSearch;
             });
         }
 
-        // Render table rows dynamically
+        function getStatusClass(status) {
+            status = status.toLowerCase();
+            if (status === 'active') return 'status-active';
+            if (status === 'inactive') return 'status-inactive';
+            if (status === 'maintenance') return 'status-maintenance';
+            return '';
+        }
+
+        function showError(message) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="empty-state">
+                        <div class="alert alert-danger mb-0">
+                            ${message}
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+
         function renderTable(data) {
-            tableBody.innerHTML = ''; // Clear the table
+            tableBody.innerHTML = '';
+
             if (data.length === 0) {
-                const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                cell.colSpan = 7; // Number of columns in the table
-                cell.textContent = 'No matching results found.';
-                cell.classList.add('text-center');
-                row.appendChild(cell);
-                tableBody.appendChild(row);
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            No matching results found
+                        </td>
+                    </tr>
+                `;
                 return;
             }
 
-            data.forEach(device => {
+            data.forEach((device, index) => {
                 const row = document.createElement('tr');
-                ['Device_ID', 'Patient_ID', 'Patient_Name', 'Device_Status', 'Vital_Status', 'Threshold_ID', 'Monitoring_Location'].forEach(key => {
+                row.style.animationDelay = `${index * 0.1}s`;
+
+                const columns = [
+                    { key: 'Device_ID', className: 'device-id' },
+                    { key: 'Patient_ID', className: '' },
+                    { key: 'Patient_Name', className: 'patient-name' },
+                    { key: 'Device_Status', className: 'status-cell' },
+                    { key: 'Vital_Status', className: '' },
+                    { key: 'Threshold_ID', className: '' },
+                    { key: 'Monitoring_Location', className: 'location-badge' }
+                ];
+
+                columns.forEach(({ key, className }) => {
                     const cell = document.createElement('td');
-                    cell.textContent = device[key] === null ? 'N/A' : device[key];
+                    cell.textContent = device[key] || 'N/A';
+                    if (className) cell.classList.add(className);
+                    if (key === 'Device_Status') {
+                        cell.classList.add(getStatusClass(device[key]));
+                    }
                     row.appendChild(cell);
                 });
+
                 tableBody.appendChild(row);
             });
         }

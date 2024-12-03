@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>High-Risk Patient Monitor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
             --royal-blue: #1d3557;
@@ -12,6 +13,8 @@
             --cream: #f1faee;
             --medium-blue: #457b9d;
             --highlight-blue: #e6f3f5;
+            --row-height: 60px;
+            --perspective: 1000px;
         }
 
         body {
@@ -24,12 +27,8 @@
         }
 
         @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-            }
-            to {
-                transform: translateY(0);
-            }
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
         }
 
         .navbar a {
@@ -41,107 +40,187 @@
             color: var(--light-blue) !important;
         }
 
-        .container h1 {
-            animation: fadeIn 1s ease-out;
+        .sorting-controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transform-style: preserve-3d;
+            transform: translateZ(10px);
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .sort-select {
+            padding: 10px;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            background: white;
+            color: var(--royal-blue);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .sort-select:hover {
+            border-color: var(--royal-blue);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(29, 53, 87, 0.2);
+        }
+
+        .sort-direction {
+            padding: 10px 20px;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            background: white;
+            color: var(--royal-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .sort-direction:hover {
+            background: var(--light-blue);
+        }
+
+        .sort-direction.active {
+            background: var(--royal-blue);
+            color: white;
+            border-color: var(--royal-blue);
+        }
+
+        .controls-label {
+            color: var(--royal-blue);
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .table-container {
+            perspective: var(--perspective);
+            perspective-origin: center;
+            padding: 20px;
+            overflow-x: auto;
         }
 
         .table {
-            background-color: #fff;
-            border: 1px solid var(--light-blue);
-            animation: slideUp 0.8s ease-out;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            background: transparent;
+            border: none;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            transform: translateZ(20px);
         }
 
         .table th {
-            background-color: var(--medium-blue);
+            background-color: var(--royal-blue);
             color: var(--cream);
+            padding: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            font-size: 0.9rem;
         }
 
-        .table tr {
+        .table tbody tr {
+            height: var(--row-height);
+            transform-style: preserve-3d;
             transition: all 0.3s ease;
-            animation: fadeInRow 0.5s ease-out;
-            animation-fill-mode: both;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: slideIn 0.5s ease-out forwards;
+            background: white;
         }
 
-        @keyframes fadeInRow {
+        .table tbody tr:hover {
+            transform: translateZ(20px) rotateX(2deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .table tbody td {
+            background: white;
+            padding: 15px;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .table tbody td::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            transform: translateZ(-1px);
+        }
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateX(-20px);
+                transform: translateY(30px) translateZ(-100px);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0) translateZ(0);
             }
         }
 
-        .table tr:hover {
-            background-color: var(--highlight-blue);
-            transform: scale(1.01);
-        }
-
-        /* Highlight classes with transitions */
         .highlight-normal {
-            background-color: #4bac32 !important;
-            transition: background-color 0.3s ease;
+            background: linear-gradient(to bottom, #4bac32, #3d8a28) !important;
+            color: white !important;
         }
 
         .highlight-elevated {
-            background-color: #f4a261 !important;
-            transition: background-color 0.3s ease;
+            background: linear-gradient(to bottom, #f4a261, #e38b4a) !important;
+            color: white !important;
         }
 
         .highlight-high {
-            background-color: #e76f51 !important;
-            transition: background-color 0.3s ease;
+            background: linear-gradient(to bottom, #e76f51, #d55a3d) !important;
+            color: white !important;
         }
 
         .highlight-very-high {
-            background-color: #d62828 !important;
-            transition: background-color 0.3s ease;
+            background: linear-gradient(to bottom, #d62828, #b52222) !important;
+            color: white !important;
         }
 
         .highlight-critical {
-            background-color: #9d0208 !important;
-            transition: background-color 0.3s ease;
+            background: linear-gradient(to bottom, #9d0208, #7d0206) !important;
+            color: white !important;
         }
 
         .highlight-low {
-            background-color: #a8dadc !important;
-            transition: background-color 0.3s ease;
+            background: linear-gradient(to bottom, #a8dadc, #8bc1c3) !important;
+            color: white !important;
         }
 
-        /* Loading animation */
         .loading {
             text-align: center;
-            padding: 20px;
-            animation: pulse 1.5s infinite;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: float 2s infinite ease-in-out;
+            margin: 20px auto;
+            max-width: 300px;
         }
 
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
     </style>
 </head>
@@ -167,13 +246,28 @@
 </nav>
 
 <div class="container">
-    <h1 class="text-center">High-Risk Patient Monitor</h1>
-    <p class="text-center">Below is the list of patients flagged as high-risk based on their vitals and alert levels.</p>
-    <div class="table-responsive">
+    <h1 class="text-center mb-4">High-Risk Patient Monitor</h1>
+    <p class="text-center mb-4">Below is the list of patients flagged as high-risk based on their vitals and alert levels.</p>
+
+    <div class="sorting-controls d-flex align-items-center">
+        <span class="controls-label">Sort by:</span>
+        <select id="sortField" class="sort-select me-3">
+            <option value="Patient_ID">Patient ID</option>
+            <option value="Patient_Name">Patient Name</option>
+            <option value="Alert_Level">Alert Level</option>
+            <option value="Alert_Time">Alert Time</option>
+        </select>
+
+        <button id="sortDirection" class="sort-direction">
+            <i class="fas fa-sort-amount-down"></i> Descending
+        </button>
+    </div>
+
+    <div class="table-container">
         <div id="loadingIndicator" class="loading">
             <h3>Loading patient data...</h3>
         </div>
-        <table class="table table-striped table-hover" style="display: none;">
+        <table class="table" style="display: none;">
             <thead>
             <tr>
                 <th>Patient ID</th>
@@ -205,6 +299,12 @@
 </footer>
 
 <script>
+    let allData = [];
+    let sortConfig = {
+        field: 'Patient_ID',
+        ascending: true
+    };
+
     async function loadData() {
         const tableBody = document.getElementById('highRiskPatientsTable');
         const loadingIndicator = document.getElementById('loadingIndicator');
@@ -212,111 +312,158 @@
 
         try {
             const response = await fetch('/api/query3/high-risk-patients');
-            const data = await response.json();
+            allData = await response.json();
 
-            if (data.error) {
-                alert('Error loading data: ' + data.error);
+            if (allData.error) {
+                alert('Error loading data: ' + allData.error);
                 return;
             }
 
-            // Hide loading indicator and show table
             loadingIndicator.style.display = 'none';
             table.style.display = 'table';
 
-            if (data.length === 0) {
-                const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                cell.colSpan = 14;
-                cell.textContent = 'No high-risk patients found.';
-                cell.classList.add('text-center');
-                row.appendChild(cell);
-                tableBody.appendChild(row);
-                return;
-            }
-
-            data.forEach((patient, index) => {
-                const row = document.createElement('tr');
-                // Add staggered animation delay
-                row.style.animationDelay = `${index * 0.1}s`;
-
-                const relevantColumns = [
-                    'Patient_ID', 'Patient_Name', 'Patient_Age', 'Medical_History',
-                    'Blood_pressure', 'Heart_rate', 'Body_temperature', 'Oxygen_saturation',
-                    'Breathing_rate', 'Alert_Level', 'Alert_Time', 'Device_Status',
-                    'Monitoring_Location', 'Provider_Name'
-                ];
-
-                relevantColumns.forEach(key => {
-                    const cell = document.createElement('td');
-                    cell.textContent = patient[key] === null ? 'N/A' : patient[key];
-
-                    // Apply highlights with existing logic
-                    if (key === 'Blood_pressure') {
-                        if (patient[key] >= 90 && patient[key] <= 120) {
-                            cell.classList.add('highlight-normal');
-                        } else if (patient[key] >= 121 && patient[key] <= 129) {
-                            cell.classList.add('highlight-elevated');
-                        } else if (patient[key] >= 130 && patient[key] <= 139) {
-                            cell.classList.add('highlight-high');
-                        } else if (patient[key] >= 140 && patient[key] <= 180) {
-                            cell.classList.add('highlight-very-high');
-                        } else if (patient[key] > 180) {
-                            cell.classList.add('highlight-critical');
-                        }
-                    }
-
-                    if (key === 'Heart_rate') {
-                        if (patient[key] >= 60 && patient[key] <= 100) {
-                            cell.classList.add('highlight-normal');
-                        } else if (patient[key] < 60) {
-                            cell.classList.add('highlight-low');
-                        } else if (patient[key] > 100) {
-                            cell.classList.add('highlight-high');
-                        }
-                    }
-
-                    if (key === 'Body_temperature') {
-                        if (patient[key] < 96.9) {
-                            cell.classList.add('highlight-low');
-                        } else if (patient[key] >= 100.5) {
-                            cell.classList.add('highlight-very-high');
-                        } else {
-                            cell.classList.add('highlight-normal');
-                        }
-                    }
-
-                    if (key === 'Oxygen_saturation') {
-                        if (patient[key] >= 95.0) {
-                            cell.classList.add('highlight-normal');
-                        } else if (patient[key] >= 90.0 && patient[key] < 95.0) {
-                            cell.classList.add('highlight-low');
-                        } else {
-                            cell.classList.add('highlight-critical');
-                        }
-                    }
-
-                    if (key === 'Breathing_rate') {
-                        if (patient[key] >= 30.1) {
-                            cell.classList.add('highlight-critical');
-                        } else if (patient[key] > 20.0) {
-                            cell.classList.add('highlight-high');
-                        } else {
-                            cell.classList.add('highlight-normal');
-                        }
-                    }
-
-                    row.appendChild(cell);
-                });
-
-                tableBody.appendChild(row);
-            });
+            renderSortedData();
         } catch (error) {
             console.error('Error fetching data:', error);
             loadingIndicator.textContent = 'Error loading data. Please refresh the page.';
         }
     }
 
-    document.addEventListener('DOMContentLoaded', loadData);
+    function renderSortedData() {
+        const tableBody = document.getElementById('highRiskPatientsTable');
+        tableBody.innerHTML = '';
+
+        const sortedData = [...allData].sort((a, b) => {
+            let valA = a[sortConfig.field];
+            let valB = b[sortConfig.field];
+
+            if (sortConfig.field === 'Alert_Time') {
+                valA = new Date(valA);
+                valB = new Date(valB);
+            }
+
+            if (sortConfig.field === 'Patient_ID') {
+                valA = parseInt(valA);
+                valB = parseInt(valB);
+            }
+
+            if (valA < valB) return sortConfig.ascending ? -1 : 1;
+            if (valA > valB) return sortConfig.ascending ? 1 : -1;
+            return 0;
+        });
+
+        if (sortedData.length === 0) {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 14;
+            cell.textContent = 'No high-risk patients found.';
+            cell.classList.add('text-center');
+            row.appendChild(cell);
+            tableBody.appendChild(row);
+            return;
+        }
+
+        sortedData.forEach((patient, index) => {
+            const row = document.createElement('tr');
+            row.style.animationDelay = `${index * 0.15}s`;
+
+            const relevantColumns = [
+                'Patient_ID', 'Patient_Name', 'Patient_Age', 'Medical_History',
+                'Blood_pressure', 'Heart_rate', 'Body_temperature', 'Oxygen_saturation',
+                'Breathing_rate', 'Alert_Level', 'Alert_Time', 'Device_Status',
+                'Monitoring_Location', 'Provider_Name'
+            ];
+
+            relevantColumns.forEach(key => {
+                const cell = document.createElement('td');
+                cell.textContent = patient[key] === null ? 'N/A' : patient[key];
+
+                if (key === 'Blood_pressure') {
+                    if (patient[key] >= 90 && patient[key] <= 120) {
+                        cell.classList.add('highlight-normal');
+                    } else if (patient[key] >= 121 && patient[key] <= 129) {
+                        cell.classList.add('highlight-elevated');
+                    } else if (patient[key] >= 130 && patient[key] <= 139) {
+                        cell.classList.add('highlight-high');
+                    } else if (patient[key] >= 140 && patient[key] <= 180) {
+                        cell.classList.add('highlight-very-high');
+                    } else if (patient[key] > 180) {
+                        cell.classList.add('highlight-critical');
+                    }
+                }
+
+                if (key === 'Heart_rate') {
+                    if (patient[key] >= 60 && patient[key] <= 100) {
+                        cell.classList.add('highlight-normal');
+                    } else if (patient[key] < 60) {
+                        cell.classList.add('highlight-low');
+                    } else if (patient[key] > 100) {
+                        cell.classList.add('highlight-high');
+                    }
+                }
+
+                if (key === 'Body_temperature') {
+                    if (patient[key] < 96.9) {
+                        cell.classList.add('highlight-low');
+                    } else if (patient[key] >= 100.5) {
+                        cell.classList.add('highlight-very-high');
+                    } else {
+                        cell.classList.add('highlight-normal');
+                    }
+                }
+
+                if (key === 'Oxygen_saturation') {
+                    if (patient[key] >= 95.0) {
+                        cell.classList.add('highlight-normal');
+                    } else if (patient[key] >= 90.0 && patient[key] < 95.0) {
+                        cell.classList.add('highlight-low');
+                    } else {
+                        cell.classList.add('highlight-critical');
+                    }
+                }
+
+                if (key === 'Breathing_rate') {
+                    if (patient[key] >= 30.1) {
+                        cell.classList.add('highlight-critical');
+                    } else if (patient[key] > 20.0) {
+                        cell.classList.add('highlight-high');
+                    } else {
+                        cell.classList.add('highlight-normal');
+                    }
+                }
+
+                row.appendChild(cell);
+            });
+
+            tableBody.appendChild(row);
+        });
+
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadData();
+
+        document.getElementById('sortField').addEventListener('change', (e) => {
+            sortConfig.field = e.target.value;
+            renderSortedData();
+        });
+
+        document.getElementById('sortDirection').addEventListener('click', (e) => {
+            sortConfig.ascending = !sortConfig.ascending;
+            e.target.classList.toggle('active');
+            e.target.innerHTML = sortConfig.ascending ?
+                '<i class="fas fa-sort-amount-up"></i> Ascending' :
+                '<i class="fas fa-sort-amount-down"></i> Descending';
+            renderSortedData();
+        });
+
+        window.addEventListener('resize', () => {
+            const table = document.querySelector('.table-container');
+            if (table) {
+                table.style.width = '100%';
+            }
+        });
+    });
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
