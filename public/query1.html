@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Health Summary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
+    <style>
+        :root {
+            --royal-blue: #1d3557;
+            --light-blue: #a8dadc;
+            --cream: #f1faee;
+            --medium-blue: #457b9d;
+            --highlight-blue: #e6f3f5;
+        }
+
+        body {
+            background-color: var(--cream);
+        }
+
+        .navbar {
+            background-color: var(--royal-blue) !important;
+        }
+
+        .table {
+            background-color: #fff;
+            border: 1px solid var(--light-blue);
+        }
+
+        .table th {
+            background-color: var(--medium-blue);
+            color: var(--cream);
+            cursor: pointer;
+        }
+
+        .table tr:hover {
+            background-color: var(--highlight-blue);
+        }
+
+        .container {
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background-color: var(--royal-blue);
+            border-color: var(--medium-blue);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--medium-blue);
+            border-color: var(--royal-blue);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Patient Database</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="query1.html">Patients</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="text-center">Patient Health Summary</h1>
+    <p class="text-center">Select a patient to view their health details.</p>
+
+    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by Patient Name">
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Age</th>
+                <th>Medical History</th>
+                <th>Vital Signs</th>
+                <th>Treatments Provided</th>
+                <th>Provider Notes</th>
+                <th>Provider Name</th>
+                <th>Last Visit Date</th>
+            </tr>
+            </thead>
+            <tbody id="resultTable">
+            <!-- Data will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="footer py-4 mt-4">
+    <div class="container text-center">
+        <p class="mb-0">Patient Database © 2024 - Health Records Management</p>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    let allPatients = [];
+    let sortDirection = true;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const resultTable = document.getElementById('resultTable');
+        const searchInput = document.getElementById('searchInput');
+
+        try {
+            const response = await fetch('/api/query1/patient-authorization-summary');
+            allPatients = await response.json();
+
+            renderTable(allPatients); // Render the initial table
+
+            // Search functionality
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const filteredPatients = allPatients.filter(patient =>
+                    patient.Full_name.toLowerCase().includes(searchTerm)
+                );
+                renderTable(filteredPatients);
+            });
+
+            // Sortable table headers
+            const tableHeaders = document.querySelectorAll('th');
+            tableHeaders.forEach((header, index) => {
+                header.addEventListener('click', () => {
+                    const sortedPatients = [...allPatients].sort((a, b) => {
+                        const valA = Object.values(a)[index];
+                        const valB = Object.values(b)[index];
+
+                        if (typeof valA === 'string') {
+                            return sortDirection ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                        } else {
+                            return sortDirection ? valA - valB : valB - valA;
+                        }
+                    });
+                    sortDirection = !sortDirection;
+                    renderTable(sortedPatients);
+                });
+            });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 8;
+            cell.textContent = 'Error loading data. Please try again later.';
+            cell.classList.add('text-center', 'text-danger');
+            row.appendChild(cell);
+            resultTable.appendChild(row);
+        }
+    });
+
+    function renderTable(patients) {
+        const resultTable = document.getElementById('resultTable');
+        resultTable.innerHTML = '';
+
+        if (patients.length === 0) {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 8;
+            cell.textContent = 'No data found.';
+            cell.classList.add('text-center');
+            row.appendChild(cell);
+            resultTable.appendChild(row);
+            return;
+        }
+
+        patients.forEach(patient => {
+            const row = document.createElement('tr');
+            ['Patient_Name', 'Patient_Age', 'Medical_History', 'Vital_Signs', 'Treatments_Provided', 'Provider_Notes', 'Provider_Name', 'Last_Health_Check_Date'].forEach(key => {
+                const cell = document.createElement('td');
+
+                // Check if the value is a date and format it properly
+                if (key === 'Date') {
+                    const date = new Date(patient[key]);
+                    cell.textContent = date.toLocaleDateString('en-US', { hour12: false });
+                } else {
+                    cell.textContent = patient[key] !== null && patient[key] !== '' ? patient[key] : 'No information available';
+                }
+
+                row.appendChild(cell);
+            });
+            resultTable.appendChild(row);
+        });
+    }
+</script>
+</body>
+</html>
+
+
