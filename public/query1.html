@@ -56,11 +56,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Patient Database</a>
+        <a class="navbar-brand" href="index.html">VitalWatchers</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="query1.html">Patients</a>
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="query1.html">Patient Health Summary</a>
                 </li>
             </ul>
         </div>
@@ -96,7 +99,7 @@
 
 <footer class="footer py-4 mt-4">
     <div class="container text-center">
-        <p class="mb-0">Patient Database © 2024 - Health Records Management</p>
+        <p class="mb-0">VitalWatchers © 2024 - Remote Monitoring for Healthcare Providers</p>
     </div>
 </footer>
 
@@ -119,73 +122,41 @@
             searchInput.addEventListener('input', () => {
                 const searchTerm = searchInput.value.toLowerCase();
                 const filteredPatients = allPatients.filter(patient =>
-                    patient.Full_name.toLowerCase().includes(searchTerm)
+                    patient.Patient_Name.toLowerCase().includes(searchTerm)
                 );
-                renderTable(filteredPatients);
-            });
-
-            // Sortable table headers
-            const tableHeaders = document.querySelectorAll('th');
-            tableHeaders.forEach((header, index) => {
-                header.addEventListener('click', () => {
-                    const sortedPatients = [...allPatients].sort((a, b) => {
-                        const valA = Object.values(a)[index];
-                        const valB = Object.values(b)[index];
-
-                        if (typeof valA === 'string') {
-                            return sortDirection ? valA.localeCompare(valB) : valB.localeCompare(valA);
-                        } else {
-                            return sortDirection ? valA - valB : valB - valA;
-                        }
-                    });
-                    sortDirection = !sortDirection;
-                    renderTable(sortedPatients);
-                });
+                renderTable(filteredPatients); // Render the filtered results
             });
         } catch (error) {
             console.error('Error fetching data:', error);
-            const row = document.createElement('tr');
-            const cell = document.createElement('td');
-            cell.colSpan = 8;
-            cell.textContent = 'Error loading data. Please try again later.';
-            cell.classList.add('text-center', 'text-danger');
-            row.appendChild(cell);
-            resultTable.appendChild(row);
+            resultTable.innerHTML = '<tr><td colspan="8" class="text-center text-danger">Error loading data. Please try again later.</td></tr>';
         }
     });
 
-    function renderTable(patients) {
+    function renderTable(data) {
         const resultTable = document.getElementById('resultTable');
-        resultTable.innerHTML = '';
+        resultTable.innerHTML = ''; // Clear previous content
 
-        if (patients.length === 0) {
-            const row = document.createElement('tr');
-            const cell = document.createElement('td');
-            cell.colSpan = 8;
-            cell.textContent = 'No data found.';
-            cell.classList.add('text-center');
-            row.appendChild(cell);
-            resultTable.appendChild(row);
+        if (data.length === 0) {
+            resultTable.innerHTML = '<tr><td colspan="8" class="text-center">No matching patients found.</td></tr>';
             return;
         }
 
-        patients.forEach(patient => {
+        data.forEach(patient => {
             const row = document.createElement('tr');
-            ['Patient_Name', 'Patient_Age', 'Medical_History', 'Vital_Signs', 'Treatments_Provided', 'Provider_Notes', 'Provider_Name', 'Last_Health_Check_Date'].forEach(key => {
-                const cell = document.createElement('td');
-
-                // Check if the value is a date and format it properly
-                if (key === 'Date') {
-                    const date = new Date(patient[key]);
-                    cell.textContent = date.toLocaleDateString('en-US', { hour12: false });
-                } else {
-                    cell.textContent = patient[key] !== null && patient[key] !== '' ? patient[key] : 'No information available';
-                }
-
-                row.appendChild(cell);
-            });
+            row.innerHTML = `
+            <td>${patient.Patient_Name}</td>
+            <td>${patient.Patient_Age}</td>
+            <td>${patient.Medical_History}</td>
+            <td>${patient.Vital_Signs}</td>
+            <td>${patient.Treatments_Provided}</td>
+            <td>${patient.Provider_Notes}</td>
+            <td>${patient.Provider_Name}</td>
+            <td>${new Date(patient.Last_Health_Check_Date).toLocaleDateString()}</td>
+        `;
             resultTable.appendChild(row);
         });
+
+
     }
 </script>
 </body>
