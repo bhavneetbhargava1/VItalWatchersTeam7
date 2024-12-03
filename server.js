@@ -15,6 +15,9 @@ const query5Controller = require('./controllers/query5'); // Import query4 contr
 // Step 3: Middleware Setup
 app.use(express.json()); // Parse incoming JSON requests
 app.use(express.static('public')); // Serve static files from the 'public' directory
+app.use('/images', express.static('images'));
+
+
 
 // Step 4: Define Routes
 app.use('/api/query1', query1Controller);
