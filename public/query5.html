@@ -24,6 +24,37 @@
             background-color: var(--royal-blue) !important;
         }
 
+        .search-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(29, 53, 87, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--royal-blue);
+            box-shadow: 0 0 0 3px rgba(29, 53, 87, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: #6c757d;
+        }
+
         .card {
             background-color: #fff;
             border-color: var(--royal-blue);
@@ -76,7 +107,6 @@
             animation: spin 1s linear infinite;
         }
 
-        /* Enhanced Table Styles */
         .custom-table-container {
             background: white;
             border-radius: 8px;
@@ -161,6 +191,13 @@
             font-size: 0.9rem;
         }
 
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--royal-blue);
+            font-size: 1.2rem;
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -196,6 +233,19 @@
 </div>
 
 <div class="container">
+    <div class="search-container">
+        <div class="row">
+            <div class="col">
+                <input
+                        type="text"
+                        id="searchInput"
+                        class="search-input"
+                        placeholder="Search by patient name, ID, alert type..."
+                >
+            </div>
+        </div>
+    </div>
+
     <div class="card mb-4">
         <div class="card-header">
             <h3>Heart Rate Chart</h3>
@@ -226,6 +276,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
 <script>
     let data = [];
+    let filteredData = [];
+    let myChart = null;
 
     async function fetchData() {
         try {
@@ -234,19 +286,45 @@
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             data = await response.json();
+            filteredData = [...data];
             console.log('Fetched data:', data);
             document.getElementById('error-message').style.display = 'none';
         } catch (error) {
             console.error('Error fetching data:', error);
             data = [];
+            filteredData = [];
             document.getElementById('error-message').textContent = 'Failed to load data. Please try again later.';
             document.getElementById('error-message').style.display = 'block';
         }
     }
 
+    function filterData(searchTerm) {
+        if (!searchTerm) {
+            filteredData = [...data];
+        } else {
+            searchTerm = searchTerm.toLowerCase().trim();
+            filteredData = data.filter(item => {
+                return (
+                    item.patientId.toString().toLowerCase().includes(searchTerm) ||
+                    item.patientName.toLowerCase().includes(searchTerm) ||
+                    item.heartRate.toString().includes(searchTerm) ||
+                    item.alertType.toLowerCase().includes(searchTerm) ||
+                    new Date(item.alertTime).toLocaleString().toLowerCase().includes(searchTerm)
+                );
+            });
+        }
+        updateUI();
+    }
+
     function initChart() {
         const chartDom = document.getElementById('chart-container');
-        const myChart = echarts.init(chartDom);
+        myChart = echarts.init(chartDom);
+        updateChart();
+    }
+
+    function updateChart() {
+        if (!myChart) return;
+
         const option = {
             tooltip: {
                 trigger: 'axis',
@@ -256,7 +334,7 @@
             },
             xAxis: {
                 type: 'category',
-                data: data.map(item => item.patientName),
+                data: filteredData.map(item => item.patientName),
                 axisLabel: {
                     rotate: 45,
                     fontSize: 10
@@ -273,7 +351,7 @@
                 }
             },
             series: [{
-                data: data.map(item => ({
+                data: filteredData.map(item => ({
                     value: item.heartRate,
                     itemStyle: {
                         color: item.alertType.toLowerCase() === 'high' ? '#ffd6d6' : '#fff3cd'
@@ -285,8 +363,15 @@
         myChart.setOption(option);
     }
 
-    function populateTable() {
+    function updateTable() {
         const container = document.getElementById('data-container');
+        container.innerHTML = '';
+
+        if (filteredData.length === 0) {
+            container.innerHTML = '<div class="no-results">No matching results found</div>';
+            return;
+        }
+
         container.className = 'custom-table-container';
         const table = document.createElement('table');
         table.className = 'custom-table';
@@ -301,7 +386,7 @@
                 </tr>
             </thead>
             <tbody>
-                ${data.map(item => `
+                ${filteredData.map(item => `
                     <tr>
                         <td><span class="patient-id">${item.patientId}</span></td>
                         <td>${item.patientName}</td>
@@ -319,21 +404,45 @@
         container.appendChild(table);
     }
 
+    function updateUI() {
+        updateChart();
+        updateTable();
+    }
+
     window.addEventListener('load', async () => {
         await fetchData();
+
+        const searchInput = document.getElementById('searchInput');
+        let debounceTimeout;
+
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                filterData(e.target.value);
+            }, 300);
+        });
+
         setTimeout(() => {
             document.body.style.opacity = 1;
             document.querySelector('.loading-overlay').style.opacity = 0;
             setTimeout(() => {
                 document.querySelector('.loading-overlay').style.display = 'none';
+                document.querySelector('.search-container').style.opacity = 1;
+                document.querySelector('.search-container').style.transform = 'translateY(0)';
                 document.querySelectorAll('.card').forEach(card => {
                     card.style.opacity = 1;
                     card.style.transform = 'translateY(0)';
                 });
             }, 500);
             initChart();
-            populateTable();
+            updateUI();
         }, 1000);
+
+        window.addEventListener('resize', () => {
+            if (myChart) {
+                myChart.resize();
+            }
+        });
     });
 </script>
 </body>
