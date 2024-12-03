@@ -324,18 +324,19 @@
 </footer>
 
 <script>
-    let allDevices = [];
-
     document.addEventListener('DOMContentLoaded', async () => {
         const tableBody = document.getElementById('deviceStatusTable');
         const statusFilter = document.getElementById('statusFilter');
         const searchInput = document.getElementById('searchInput');
+
+        let allDevices = [];
 
         try {
             const response = await fetch('/api/query4/device-status-overview');
             allDevices = await response.json();
             renderTable(allDevices);
 
+            // Add input event listeners
             statusFilter.addEventListener('change', () => {
                 const filteredData = filterData();
                 renderTable(filteredData);
@@ -351,14 +352,19 @@
         }
 
         function filterData() {
-            const status = statusFilter.value;
-            const search = searchInput.value.toLowerCase();
+            const status = statusFilter.value.toLowerCase();
+            const searchTerm = searchInput.value.toLowerCase().trim();
 
             return allDevices.filter(device => {
-                const matchesStatus = !status || device.Device_Status === status;
-                const matchesSearch = !search ||
-                    device.Patient_Name.toLowerCase().includes(search) ||
-                    device.Device_ID.toLowerCase().includes(search);
+                // Status filter
+                const matchesStatus = !status ||
+                    device.Device_Status.toLowerCase() === status;
+
+                // Search filter - check if patient name contains search term
+                const matchesSearch = !searchTerm ||
+                    (device.Patient_Name &&
+                        device.Patient_Name.toLowerCase().includes(searchTerm));
+
                 return matchesStatus && matchesSearch;
             });
         }
