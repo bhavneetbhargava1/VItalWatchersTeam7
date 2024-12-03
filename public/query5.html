@@ -76,6 +76,91 @@
             animation: spin 1s linear infinite;
         }
 
+        /* Enhanced Table Styles */
+        .custom-table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(29, 53, 87, 0.1);
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+        }
+
+        .custom-table thead th {
+            background-color: var(--royal-blue);
+            color: var(--cream);
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 3px solid var(--medium-blue);
+            white-space: nowrap;
+        }
+
+        .custom-table tbody tr {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .custom-table tbody tr:nth-child(even) {
+            background-color: var(--highlight-blue);
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: var(--light-blue);
+            transform: scale(1.01);
+        }
+
+        .custom-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .alert-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            text-align: center;
+            display: inline-block;
+            min-width: 100px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .alert-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .alert-high {
+            background-color: #ffd6d6;
+            color: #cc0000;
+        }
+
+        .alert-medium {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .heart-rate {
+            font-weight: 600;
+            color: var(--royal-blue);
+        }
+
+        .patient-id {
+            font-family: monospace;
+            color: var(--medium-blue);
+            font-weight: 500;
+        }
+
+        .timestamp {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -191,7 +276,7 @@
                 data: data.map(item => ({
                     value: item.heartRate,
                     itemStyle: {
-                        color: item.alertType.toLowerCase() === 'high' ? '#d2b48c' : '#9caf88'
+                        color: item.alertType.toLowerCase() === 'high' ? '#ffd6d6' : '#fff3cd'
                     }
                 })),
                 type: 'bar'
@@ -202,30 +287,35 @@
 
     function populateTable() {
         const container = document.getElementById('data-container');
+        container.className = 'custom-table-container';
         const table = document.createElement('table');
-        table.className = 'table table-striped';
+        table.className = 'custom-table';
         table.innerHTML = `
-                <thead>
+            <thead>
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Name</th>
+                    <th>Heart Rate</th>
+                    <th>Alert Type</th>
+                    <th>Alert Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.map(item => `
                     <tr>
-                        <th>Patient ID</th>
-                        <th>Name</th>
-                        <th>Heart Rate</th>
-                        <th>Alert Type</th>
-                        <th>Alert Time</th>
+                        <td><span class="patient-id">${item.patientId}</span></td>
+                        <td>${item.patientName}</td>
+                        <td><span class="heart-rate">${item.heartRate} BPM</span></td>
+                        <td>
+                            <span class="alert-badge ${item.alertType.toLowerCase() === 'high' ? 'alert-high' : 'alert-medium'}">
+                                ${item.alertType}
+                            </span>
+                        </td>
+                        <td><span class="timestamp">${new Date(item.alertTime).toLocaleString()}</span></td>
                     </tr>
-                </thead>
-                <tbody>
-                    ${data.map(item => `
-                        <tr>
-                            <td>${item.patientId}</td>
-                            <td>${item.patientName}</td>
-                            <td>${item.heartRate}</td>
-                            <td>${item.alertType}</td>
-                            <td>${new Date(item.alertTime).toLocaleString()}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            `;
+                `).join('')}
+            </tbody>
+        `;
         container.appendChild(table);
     }
 
