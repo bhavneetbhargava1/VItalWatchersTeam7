@@ -308,8 +308,7 @@
                     item.patientId.toString().toLowerCase().includes(searchTerm) ||
                     item.patientName.toLowerCase().includes(searchTerm) ||
                     item.heartRate.toString().includes(searchTerm) ||
-                    item.alertType.toLowerCase().includes(searchTerm) ||
-                    new Date(item.alertTime).toLocaleString().toLowerCase().includes(searchTerm)
+                    item.alertType.toLowerCase().includes(searchTerm)
                 );
             });
         }
