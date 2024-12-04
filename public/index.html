@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VitalWatchers - Dashboard</title>
+    <title>VitalWatchers - Remote Health Monitoring</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
     <style>
+        /* Previous styles remain the same */
         :root {
             --royal-blue: #1d3557;
             --light-blue: #a8dadc;
@@ -57,11 +58,13 @@
             background-color: #fff;
             border-color: var(--royal-blue);
             margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .card-header {
             background-color: var(--royal-blue);
             color: var(--cream);
+            font-weight: bold;
         }
 
         .main-content {
@@ -76,33 +79,41 @@
             border-radius: 5px;
         }
 
-        .modal-header {
-            background-color: var(--royal-blue);
-            color: var(--cream);
+        .feature-card {
+            background-color: var(--highlight-blue);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            height: 100%;
         }
 
-        @media (max-width: 991px) {
-            .navbar-nav {
-                padding: 1rem 0;
-            }
-            .nav-link {
-                padding: 0.5rem 1rem !important;
-            }
-            .btn-outline-light {
-                margin-top: 1rem;
-                width: 100%;
-            }
+        .benefit-item {
+            background-color: var(--highlight-blue);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--royal-blue);
+        }
+
+        .goal-section {
+            margin-bottom: 20px;
+        }
+
+        .goal-section h5 {
+            color: var(--royal-blue);
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
-<!-- Header Section with Logo and Title -->
+<!-- Header and Navigation sections remain the same -->
 <div class="header-section">
-    <img src="../images/logo.png" alt="Logo">
+    <img src="../images/logo.png" alt="VitalWatchers Logo">
     <h1>VitalWatchers</h1>
+    <p class="lead">Revolutionizing Remote Healthcare Monitoring</p>
 </div>
 
-<!-- Navigation Bar -->
+<!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -128,7 +139,7 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#teamModal">Team</button>
+                <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#teamModal">Our Team</button>
             </div>
         </div>
     </div>
@@ -136,63 +147,185 @@
 
 <!-- Main Content -->
 <div class="container main-content">
-    <!-- About Project Card -->
+    <!-- Problem Statement Card -->
     <div class="card">
         <div class="card-header">
-            <h3>About VitalWatchers</h3>
+            <h3>The Challenge</h3>
         </div>
         <div class="card-body">
-            <p class="lead">VitalWatchers is a remote healthcare monitoring system designed to provide critical medical care access to patients with chronic conditions or those in remote areas. Our system enables continuous monitoring of vital signs like oxygen saturation, blood pressure, heart rate, breathing rate, and temperature - all from the comfort of a patient's home.</p>
-
-            <h4 class="mt-4">Key Benefits</h4>
+            <p class="lead">Our project addresses critical healthcare challenges faced by patients who require consistent medical monitoring:</p>
             <div class="row g-4">
-                <div class="col-md-6">
-                    <h5>For Patients</h5>
-                    <ul>
-                        <li>24/7 health monitoring</li>
-                        <li>Reduced hospital visits</li>
-                        <li>Early detection of health issues</li>
-                        <li>Improved quality of life</li>
-                    </ul>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <h5>Delayed Care</h5>
+                        <p>Patients often delay seeking care until their condition significantly deteriorates, making early intervention difficult. This is especially critical for those with chronic conditions requiring regular monitoring.</p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h5>For Healthcare Providers</h5>
-                    <ul>
-                        <li>Real-time patient monitoring</li>
-                        <li>Early intervention capabilities</li>
-                        <li>Efficient resource allocation</li>
-                        <li>Data-driven decision making</li>
-                    </ul>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <h5>Limited Access</h5>
+                        <p>Many patients, particularly in rural or underserved areas, lack easy access to healthcare facilities for regular monitoring. This geographical barrier puts their health at greater risk.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <h5>Patient Uncertainty</h5>
+                        <p>Without constant monitoring, patients often feel uncertain about their health status, leading to increased stress and anxiety, which can directly worsen their conditions.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Technical Overview Card -->
+    <!-- Goals and Motivations -->
     <div class="card">
         <div class="card-header">
-            <h3>Technical Overview</h3>
+            <h3>Goals and Motivations</h3>
         </div>
         <div class="card-body">
-            <h5>Technologies Used</h5>
-            <ul>
-                <li><strong>IDE:</strong> IntelliJ IDEA</li>
-                <li><strong>Languages:</strong> JavaScript, HTML, SQL</li>
-                <li><strong>Backend:</strong> Node.js, Express.js</li>
-                <li><strong>Frontend:</strong> Bootstrap, Bootswatch</li>
-                <li><strong>Database:</strong> MySQL</li>
-                <li><strong>Version Control:</strong> Git, GitHub</li>
-            </ul>
+            <div class="goal-section">
+                <h5>Core Motivations</h5>
+                <p>Our primary motivation is to empower patients by giving them more control over their health while ensuring they receive the best possible care. We aim to:</p>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="benefit-item">
+                            <h6>Real-Time Tracking</h6>
+                            <p>Provide seamless vital sign monitoring from the comfort of patients' homes, ensuring early detection of any changes in their condition.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="benefit-item">
+                            <h6>Preventive Care</h6>
+                            <p>Enable early intervention by detecting minor changes before they become serious complications, reducing the need for emergency care.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-section">
+                <h5>Patient Benefits</h5>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="benefit-item">
+                            <h6>Peace of Mind</h6>
+                            <p>Continuous monitoring provides reassurance that health status is being actively tracked.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="benefit-item">
+                            <h6>Reduced Hospital Visits</h6>
+                            <p>Minimize unnecessary hospitalizations through proactive monitoring and early intervention.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="benefit-item">
+                            <h6>Better Quality of Life</h6>
+                            <p>Enhanced care experience through personalized monitoring and treatment plans.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Objectives -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Project Objectives</h3>
+        </div>
+        <div class="card-body">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <h5>Continuous Monitoring</h5>
+                        <p>Equip patients with devices that continuously track vital signs including:</p>
+                        <ul>
+                            <li>Blood pressure monitoring</li>
+                            <li>Oxygen level tracking</li>
+                            <li>Heart rate measurement</li>
+                            <li>Breathing rate analysis</li>
+                            <li>Temperature monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <h5>Early Intervention</h5>
+                        <p>Implement systems for:</p>
+                        <ul>
+                            <li>Real-time vital sign analysis</li>
+                            <li>Immediate alert generation for concerning changes</li>
+                            <li>Rapid response protocols</li>
+                            <li>Direct communication channels with healthcare providers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4 mt-3">
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <h5>Patient Comfort and Safety</h5>
+                        <ul>
+                            <li>Non-intrusive monitoring systems</li>
+                            <li>Secure data transmission</li>
+                            <li>User-friendly interfaces</li>
+                            <li>24/7 support availability</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <h5>Selective Treatment</h5>
+                        <ul>
+                            <li>Data-driven treatment plans</li>
+                            <li>Personalized care approaches</li>
+                            <li>Reduced unnecessary interventions</li>
+                            <li>Optimized resource allocation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Implementation remains the same -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Technical Implementation</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Technologies Used</h5>
+                    <ul>
+                        <li><strong>Frontend:</strong> Bootstrap, Bootswatch</li>
+                        <li><strong>Backend:</strong> Node.js, Express.js</li>
+                        <li><strong>Database:</strong> MySQL</li>
+                        <li><strong>Development:</strong> IntelliJ IDEA</li>
+                        <li><strong>Version Control:</strong> Git, GitHub</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Security Features</h5>
+                    <ul>
+                        <li>Encrypted Data Transmission</li>
+                        <li>Secure Authentication</li>
+                        <li>HIPAA Compliance</li>
+                        <li>Regular Security Audits</li>
+                        <li>Data Backup Systems</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Team Modal -->
+<!-- Team Modal remains the same -->
 <div class="modal fade" id="teamModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Development Team</h5>
+                <h5 class="modal-title">Our Development Team</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
