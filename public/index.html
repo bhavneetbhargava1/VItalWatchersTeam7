@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VitalWatchers - Remote Patient Monitoring</title>
+    <title>VitalWatchers - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
     <style>
         :root {
@@ -16,15 +16,47 @@
 
         body {
             background-color: var(--cream);
+            min-height: 100vh;
+        }
+
+        .header-section {
+            background-color: var(--royal-blue);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--cream);
+        }
+
+        .header-section img {
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+
+        .header-section h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            font-weight: bold;
         }
 
         .navbar {
-            background-color: var(--royal-blue) !important;
+            background-color: var(--medium-blue) !important;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-link {
+            color: var(--cream) !important;
+            padding: 0.8rem 1.2rem !important;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: var(--royal-blue);
+            color: var(--light-blue) !important;
         }
 
         .card {
             background-color: #fff;
             border-color: var(--royal-blue);
+            margin-bottom: 20px;
         }
 
         .card-header {
@@ -32,39 +64,8 @@
             color: var(--cream);
         }
 
-        .section-card .card-header {
-            background-color: var(--medium-blue);
-        }
-
-        .query-card {
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 2px solid var(--medium-blue);
-        }
-
-        .query-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(29, 53, 87, 0.2);
-        }
-
-        .query-card .card-header {
-            background-color: var(--medium-blue);
-        }
-
-        .query-btn {
-            background-color: var(--royal-blue);
-            color: var(--cream);
-            transition: all 0.3s ease;
-        }
-
-        .query-btn:hover {
-            background-color: var(--medium-blue);
-            color: var(--cream);
-            transform: translateY(-2px);
-        }
-
-        .list-group-item {
-            background-color: var(--highlight-blue);
-            border-color: var(--light-blue);
+        .main-content {
+            padding: 20px;
         }
 
         .team-member {
@@ -75,80 +76,118 @@
             border-radius: 5px;
         }
 
-        .hero-section {
-            background-color: var(--royal-blue);
-            color: var(--cream);
-            padding: 3rem 0;
-            margin-bottom: 2rem;
-        }
-
-        .footer {
-            background-color: var(--royal-blue);
-            color: var(--cream);
-        }
-
-        .nav-link {
-            color: var(--cream) !important;
-        }
-
-        .nav-link:hover {
-            color: var(--light-blue) !important;
-        }
-
         .modal-header {
             background-color: var(--royal-blue);
             color: var(--cream);
-        }
-
-        .modal-content {
-            border: 2px solid var(--royal-blue);
-        }
-
-        .dropdown-item {
-            color: var(--royal-blue);
-            transition: all 0.3s ease;
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--light-blue);
-            color: var(--royal-blue);
-        }
-
-        .navbar-nav .nav-link {
-            padding-right: 1rem;
-            padding-left: 1rem;
-        }
-
-        .dropdown-menu {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         @media (max-width: 991px) {
             .navbar-nav {
                 padding: 1rem 0;
             }
+            .nav-link {
+                padding: 0.5rem 1rem !important;
+            }
             .btn-outline-light {
-                margin-top: 0.5rem;
+                margin-top: 1rem;
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
+<!-- Header Section with Logo and Title -->
+<div class="header-section">
+    <img src="../images/logo.png" alt="Logo">
+    <h1>VitalWatchers</h1>
+</div>
 
+<!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">VitalWatchers</a>
-        <div class="ms-auto">
-            <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#teamModal">
-                Team
-            </button>
-            <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#technologiesModal">
-                Project Information
-            </button>
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/query1.html">Patient Authorization</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/query2.html">Alert Analysis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/query3.html">High Risk Monitor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/query4.html">Device Status</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/query5.html">Heart Rate Analysis</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#teamModal">Team</button>
+            </div>
         </div>
     </div>
 </nav>
 
+<!-- Main Content -->
+<div class="container main-content">
+    <!-- About Project Card -->
+    <div class="card">
+        <div class="card-header">
+            <h3>About VitalWatchers</h3>
+        </div>
+        <div class="card-body">
+            <p class="lead">VitalWatchers is a remote healthcare monitoring system designed to provide critical medical care access to patients with chronic conditions or those in remote areas. Our system enables continuous monitoring of vital signs like oxygen saturation, blood pressure, heart rate, breathing rate, and temperature - all from the comfort of a patient's home.</p>
+
+            <h4 class="mt-4">Key Benefits</h4>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h5>For Patients</h5>
+                    <ul>
+                        <li>24/7 health monitoring</li>
+                        <li>Reduced hospital visits</li>
+                        <li>Early detection of health issues</li>
+                        <li>Improved quality of life</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>For Healthcare Providers</h5>
+                    <ul>
+                        <li>Real-time patient monitoring</li>
+                        <li>Early intervention capabilities</li>
+                        <li>Efficient resource allocation</li>
+                        <li>Data-driven decision making</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Overview Card -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Technical Overview</h3>
+        </div>
+        <div class="card-body">
+            <h5>Technologies Used</h5>
+            <ul>
+                <li><strong>IDE:</strong> IntelliJ IDEA</li>
+                <li><strong>Languages:</strong> JavaScript, HTML, SQL</li>
+                <li><strong>Backend:</strong> Node.js, Express.js</li>
+                <li><strong>Frontend:</strong> Bootstrap, Bootswatch</li>
+                <li><strong>Database:</strong> MySQL</li>
+                <li><strong>Version Control:</strong> Git, GitHub</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Team Modal -->
 <div class="modal fade" id="teamModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -157,7 +196,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mb-4">Meet our talented team of full-stack developers responsible for both frontend and backend development of the VitalWatchers system:</p>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="team-member">
@@ -182,177 +220,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
         </div>
     </div>
 </div>
-
-<!-- Project Technologies Modal -->
-<div class="modal fade" id="technologiesModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Project Technologies</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="mb-4">Below are the key technologies used in the development of the VitalWatchers system:</p>
-                <ul>
-                    <li><strong>Integrated Development Environment (IDE):</strong> IntelliJ IDEA</li>
-                    <li><strong>Programming Languages:</strong> JavaScript, HTML, SQL</li>
-                    <li><strong>Scripting Technology:</strong> Node.js, Express.js</li>
-                    <li><strong>Frontend Frameworks:</strong> Bootstrap, Bootswatch</li>
-                    <li><strong>Database Management System:</strong> MySQL</li>
-                    <li><strong>Version Control:</strong> Git, GitHub</li>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="hero-section">
-    <div class="container text-center">
-        <a class="navbar-brand" href="#">
-            <img src="../images/logo.png" style="height: 150px; margin-bottom: 10px;" alt="Logo">
-        </a>
-        <h1 class="display-4">VitalWatchers Dashboard</h1>
-        <p class="lead">Empowering healthcare providers with remote monitoring and personalized patient insights.</p>
-    </div>
-</div>
-
-<!-- Updated Project Overview -->
-<div class="container">
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>About Our Project</h3>
-        </div>
-        <div class="card-body">
-            <p class="lead mb-4">VitalWatchers is a remote healthcare monitoring system designed to provide critical medical care access to patients with chronic conditions or those in remote areas. Our system enables continuous monitoring of vital signs like oxygen saturation, blood pressure, heart rate, breathing rate, and temperature - all from the comfort of a patient's home.</p>
-
-            <h4 class="mb-3">Key Benefits</h4>
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">For Patients</h5>
-                            <ul class="list-unstyled">
-                                <li class="mb-2">✓ 24/7 health monitoring for peace of mind</li>
-                                <li class="mb-2">✓ Reduced need for hospital visits</li>
-                                <li class="mb-2">✓ Early detection of health issues</li>
-                                <li class="mb-2">✓ Improved quality of life</li>
-                                <li class="mb-2">✓ Greater control over health management</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">For Healthcare Providers</h5>
-                            <ul class="list-unstyled">
-                                <li class="mb-2">✓ Real-time patient monitoring</li>
-                                <li class="mb-2">✓ Early intervention capabilities</li>
-                                <li class="mb-2">✓ Efficient resource allocation</li>
-                                <li class="mb-2">✓ Data-driven decision making</li>
-                                <li class="mb-2">✓ Improved patient outcomes</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <h4 class="mb-3">Who We Serve</h4>
-                <p>Our system is especially beneficial for:</p>
-                <ul>
-                    <li>Elderly patients requiring continuous monitoring</li>
-                    <li>Individuals with chronic conditions</li>
-                    <li>Patients in rural or underserved areas</li>
-                    <li>Those requiring post-hospitalization care</li>
-                    <li>Individuals seeking preventive health management</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container" id="queries">
-    <h2 class="mb-4">Available Queries</h2>
-
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card query-card h-100">
-                <div class="card-header">
-                    <h4>Patient Management</h4>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <h5>Patient Authorization Summary</h5>
-                            <p class="mb-0">View comprehensive patient authorization details with health summaries</p>
-                            <a href="/query1.html" class="btn query-btn mt-2">View Authorization Summary</a>
-                        </li>
-                        <li class="list-group-item">
-                            <h5>High Risk Patient Monitor</h5>
-                            <p class="mb-0">Track patients under treatment with active high alerts</p>
-                            <a href="/query3.html" class="btn query-btn mt-2">View High Risk Patients</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card query-card h-100">
-                <div class="card-header">
-                    <h4>Alert Management</h4>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <h5>Active Alert Analysis</h5>
-                            <p class="mb-0">Monitor unresolved alerts for patients with active patch devices</p>
-                            <a href="/query2.html" class="btn query-btn mt-2">View Active Alerts</a>
-                        </li>
-                        <li class="list-group-item">
-                            <h5>High Heart Rate Analysis</h5>
-                            <p class="mb-0">Identify patients with high heart rates and related alerts</p>
-                            <a href="/query5.html" class="btn query-btn mt-2">View Heart Rate Analysis</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card query-card h-100">
-                <div class="card-header">
-                    <h4>Device Management</h4>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <h5>Device Status Overview</h5>
-                            <p class="mb-0">View all patients and their associated patch device status</p>
-                            <a href="/query4.html" class="btn query-btn mt-2">View Device Status</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer class="footer py-4 mt-4">
-    <div class="container text-center">
-        <p class="mb-0">VitalWatchers © 2024 - Remote Monitoring for Healthcare Providers</p>
-    </div>
-</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
