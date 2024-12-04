@@ -13,6 +13,7 @@ router.get('/patient-authorization-summary', async (req, res) => {
                 P.Email AS Authorized_Email,
                 P.Full_name AS Patient_Name,
                 P.Age AS Patient_Age,
+                P.Medical_History AS Medical_History,
                 HS.Date AS Last_Health_Check_Date,
                 HS.Vital_signs AS Vital_Signs,
                 HS.Treatments AS Treatments_Provided,
