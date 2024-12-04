@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - VitalWatchers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f1faee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2 class="text-center">Login</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="userCode">User Code:</label>
+            <input type="text" id="userCode" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <div id="errorMessage" class="error-message"></div>
+    </form>
+</div>
+
+<script>
+    const users = [
+        { email: 'john.doe@example.com', userCode: 'A1234' },
+        { email: 'jane.smith@example.com', userCode: 'B5678' },
+        { email: 'alice.johnson@example.com', userCode: 'C9101' },
+        { email: 'robert.brown@example.com', userCode: 'D1123' },
+        { email: 'linda.davis@example.com', userCode: 'E1415' },
+        { email: 'michael.wilson@example.com', userCode: 'F1617' },
+        { email: 'emily.clark@example.com', userCode: 'G1819' },
+        { email: 'david.martinez@example.com', userCode: 'H2021' },
+        { email: 'jessica.lee@example.com', userCode: 'I2223' },
+        { email: 'daniel.taylor@example.com', userCode: 'J2425' },
+        { email: 'george.anderson@example.com', userCode: 'K3031' },
+        { email: 'samantha.clark@example.com', userCode: 'L3233' },
+        { email: 'lisa.roberts@example.com', userCode: 'M3435' },
+        { email: 'brian.nelson@example.com', userCode: 'N3637' },
+        { email: 'nancy.carter@example.com', userCode: 'O3839' }
+    ];
+
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const userCode = document.getElementById('userCode').value;
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.style.display = 'none';
+
+        const isValidUser = users.find(user => user.email === email && user.userCode === userCode);
+
+        if (isValidUser) {
+            sessionStorage.setItem('isLoggedIn', true);
+            window.location.href = 'index.html';
+        } else {
+            errorMessage.textContent = 'Invalid email or user code.';
+            errorMessage.style.display = 'block';
+        }
+        return false;
+    });
+</script>
+</body>
+</html>
