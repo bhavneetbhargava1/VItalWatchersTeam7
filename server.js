@@ -10,6 +10,8 @@ const query2Controller = require('./controllers/query2'); // Import query2 contr
 const query3Controller = require('./controllers/query3'); // Import query3 controller
 const query4Controller = require('./controllers/query4'); // Import query4 controller
 const query5Controller = require('./controllers/query5'); // Import query5 controller
+const query6Controller = require('./controllers/query6'); // Import query5 controller
+
 
 // Step 3: Middleware Setup
 app.use(express.json()); // Parse incoming JSON requests
@@ -32,6 +34,9 @@ app.use('/api/query4', query4Controller); // Route for query4
 
 // Query 5 Route
 app.use('/api/query5', query5Controller); // Route for query5
+
+app.use('/api/query6', query6Controller); // Route for query5
+
 
 // Step 5: Start the Server
 const PORT = process.env.PORT || 5000; // Default port is 5000 if not specified in .env

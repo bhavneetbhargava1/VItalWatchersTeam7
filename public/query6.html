@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Dispatch Monitor </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
+    <style>
+        :root {
+            --royal-blue: #1d3557;
+            --light-blue: #a8dadc;
+            --cream: #f1faee;
+            --medium-blue: #457b9d;
+            --highlight-blue: #e6f3f5;
+        }
+
+        body {
+            background-color: var(--cream);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--royal-blue), var(--medium-blue)) !important;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--royal-blue);
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            color: var(--medium-blue);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--royal-blue), var(--medium-blue));
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--medium-blue), var(--royal-blue));
+            color: var(--cream);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, var(--royal-blue), var(--medium-blue));
+            color: var(--cream);
+            text-align: center;
+            padding: 1.5rem 0;
+            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/">VitalWatchers</a>
+    </div>
+</nav>
+<div class="container text-center">
+    <h1>Emergency Dispatch Monitor</h1>
+    <a href="/api/query6/emergency-dispatch-summary" class="btn btn-primary mt-4">View Emergency Dispatch Information</a>
+</div>
+<footer class="footer mt-5">
+    <p class="mb-0">VitalWatchers © 2024 - Remote Monitoring for Healthcare Providers</p>
+</footer>
+</body>
+</html>
