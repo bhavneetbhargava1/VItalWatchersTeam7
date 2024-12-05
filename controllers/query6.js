@@ -5,7 +5,7 @@ const db = require('../dbConfig');
 router.get('/emergency-dispatch-summary', async (req, res) => {
     try {
         const sqlQuery = `
-            SELECT 
+            SELECT
                 ED.Dispatch_ID,
                 ED.Patient_ID,
                 ED.Alert_ID,
@@ -30,25 +30,25 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
                 V.Oxygen_saturation,
                 V.Breathing_rate,
                 V.Time_stamp AS Vitals_Time
-            FROM 
+            FROM
                 EMERGENCY_DISPATCH AS ED
-                JOIN PATIENTS AS P ON ED.Patient_ID = P.Patient_ID
-                JOIN ALERTS AS A ON ED.Alert_ID = A.Alert_ID
-                JOIN PATCH_DEVICE AS PD ON P.Patient_ID = PD.Patient_ID
-                JOIN VITALS AS V ON P.Patient_ID = V.Patient_ID
-            WHERE 
+                    JOIN PATIENTS AS P ON ED.Patient_ID = P.Patient_ID
+                    JOIN ALERTS AS A ON ED.Alert_ID = A.Alert_ID
+                    JOIN PATCH_DEVICE AS PD ON P.Patient_ID = PD.Patient_ID
+                    JOIN VITALS AS V ON P.Patient_ID = V.Patient_ID
+            WHERE
                 V.Time_stamp = (
                     SELECT MAX(Time_stamp)
                     FROM VITALS V2
                     WHERE V2.Patient_ID = P.Patient_ID
                 )
-            ORDER BY 
+            ORDER BY
                 CASE ED.Status
                     WHEN 'Pending' THEN 1
                     WHEN 'Dispatched' THEN 2
                     WHEN 'Arrived' THEN 3
                     WHEN 'Resolved' THEN 4
-                END,
+                    END,
                 ED.Dispatch_time DESC;
         `;
 
@@ -236,7 +236,26 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        .filter-dropdown {
+            margin-bottom: 20px;
+        }
     </style>
+    <script>
+        function filterStatus() {
+            const filter = document.getElementById('statusFilter').value.toLowerCase();
+            const cards = document.getElementsByClassName('emergency-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                const card = cards[i];
+                if (filter === 'all' || card.classList.contains(filter)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -250,6 +269,17 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
 
     <div class="container my-4">
         <h1 class="text-center mb-4">Emergency Dispatch Dashboard</h1>
+
+        <div class="filter-dropdown">
+            <label for="statusFilter" class="form-label">Filter by Status:</label>
+            <select id="statusFilter" class="form-select" onchange="filterStatus()">
+                <option value="all">All</option>
+                <option value="pending">Pending</option>
+                <option value="dispatched">Dispatched</option>
+                <option value="arrived">Arrived</option>
+                <option value="resolved">Resolved</option>
+            </select>
+        </div>
 `;
 
         // Add status summary
