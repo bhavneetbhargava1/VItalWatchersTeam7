@@ -30,6 +30,7 @@ const db = require('../dbConfig');
  *   of the vital signs. This allows for a quick visual assessment of patient conditions.
  * - JavaScript functions can be used to enhance interactivity, such as sorting,
  *   filtering, and highlighting critical information for better user experience.
+ *  - The remaining is discussed in the corresponding HTML file (query6.html).
  *
  * Phase II Queries:
  * - This file corresponds to Phase II, Query 9.
@@ -314,7 +315,6 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
         </div>
 `;
 
-        // Add status summary
         const statusCounts = {
             Pending: rows.filter(r => r.Dispatch_Status === 'Pending').length,
             Dispatched: rows.filter(r => r.Dispatch_Status === 'Dispatched').length,

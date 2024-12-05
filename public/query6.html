@@ -1,3 +1,63 @@
+<!--
+    Query 6: Emergency Dispatch Monitor
+
+    Authors:
+    - Binal Dhaliwal
+    - Anagha Krishna
+    - Bhavneet Bhargava
+
+    Purpose:
+    - Frontend interface for viewing emergency dispatch records and patient vital signs
+    - Displays comprehensive emergency response data including dispatch status, patient information,
+      and real-time vital sign monitoring
+    - Part of Phase II Query 6 implementation (pairs with query6.js)
+
+    Special Features:
+    - Real-time vital signs monitoring with color-coded status indicators:
+      * Normal (Green): Vital signs within acceptable ranges
+      * Warning (Orange): Potential issues requiring attention
+      * Critical (Red): Urgent medical intervention needed
+
+    - Interactive Dashboard Elements:
+      * Status filter dropdown for sorting dispatches
+      * Expandable patient information cards
+      * Color-coded dispatch status indicators
+      * Visual summary of dispatch counts by status
+
+    - Responsive Design Features:
+      * Adapts to different screen sizes
+      * Grid-based vital signs display
+      * Collapsible information sections
+      * Mobile-friendly interface
+
+    Data Visualization:
+    1. Status Summary Cards:
+       - Pending (Red)
+       - Dispatched (Orange)
+       - Arrived (Purple)
+       - Resolved (Green)
+
+    2. Patient Information Display:
+       - Contact details
+       - Medical history
+       - Alert information
+       - Timestamp tracking
+
+    3. Vital Signs Monitoring:
+       - Blood Pressure
+       - Heart Rate
+       - Body Temperature
+       - Oxygen Saturation
+       - Breathing Rate
+
+    Integration:
+    - Works with query6.js backend implementation
+    - Uses Bootstrap for enhanced UI components
+    - Custom CSS variables for consistent theming
+
+    Note: This HTML file implements the frontend interface for
+    Phase II Query 6 of the VitalWatchers system.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,6 +129,7 @@
     </style>
 </head>
 <body>
+<!-- Navigation -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="/">VitalWatchers</a>
@@ -78,6 +139,7 @@
     <h1>Emergency Dispatch Monitor</h1>
     <a href="/api/query6/emergency-dispatch-summary" class="btn btn-primary mt-4">View Emergency Dispatch Information</a>
 </div>
+<!-- Footer -->
 <footer class="footer mt-5">
     <p class="mb-0">VitalWatchers © 2024 - Remote Monitoring for Healthcare Providers</p>
 </footer>
