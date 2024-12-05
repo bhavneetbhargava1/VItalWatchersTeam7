@@ -1,6 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../dbConfig');
+/**
+ * Query 1: Patient Authorization Summary
+ *
+ * Purpose:
+ * - This route handles requests to fetch a summary of patient authorization details
+ *   and patient information.
+ * - The page provides detailed information, such as patient name, age, medical history,
+ *   vital signs, treatments, provider notes, and the last visit date.
+ * - Users can view additional information about each patient by expanding a section that
+ *   reveals further details like authorization code, activation status, and user ID.
+ * - It handles requests to render a dynamic HTML page that displays patient authorization
+ *   and health summary details.
+ *
+ * Special Features:
+ * - Filters data to show only relevant authorization records for patients.
+ * - Ensures data is grouped and ordered for clear, easy-to-read summaries.
+ * - Returns data in JSON format for seamless integration with the frontend.
+ * - Implements a search bar functionality that filters the table based on the user input.
+ * - Includes styling to enhance the visual presentation using Bootstrap
+ *   and custom CSS variables.
+ * - Ensures a responsive design that adapts to various screen sizes with a clean
+ *   and user-friendly interface.
+ * - Highlights patients' critical or warning status with color-coded indicators.
+ * - Uses Bootstrap's collapse component to show or hide detailed patient information in
+ *   an expandable card format.
+ * - The remaining is discussed in the corresponding HTML file (query1.html).
+ *
+ * Note:
+ * - This file (query1.js) implements Phase II Query 1.
+ */
+
 
 router.get('/patient-authorization-summary', async (req, res) => {
     try {
@@ -323,3 +354,4 @@ router.get('/patient-authorization-summary', async (req, res) => {
 });
 
 module.exports = router;
+
