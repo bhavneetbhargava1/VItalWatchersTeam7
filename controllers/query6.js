@@ -96,6 +96,7 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
     <title>Emergency Dispatch Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
     <style>
+     /* Root variables for consistent theming */
         :root {
             --royal-blue: #1d3557;
             --light-blue: #a8dadc;
@@ -103,7 +104,7 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
             --medium-blue: #457b9d;
             --highlight-blue: #e6f3f5;
         }
-
+        /* Base styles for the body */
         body {
             background-color: var(--cream);
             min-height: 100vh;
@@ -115,7 +116,7 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
             background: linear-gradient(135deg, var(--royal-blue), var(--medium-blue)) !important;
             box-shadow: 0 2px 15px rgba(0,0,0,0.1);
         }
-
+        /* Styling for header status blocks */
         .header-status {
             padding: 20px;
             color: white;
@@ -127,7 +128,7 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
         .header-status h3 {
             margin-bottom: 10px;
         }
-
+         /* Styling for individual emergency cards */
         .emergency-card {
             background: white;
             border-radius: 10px;
@@ -210,7 +211,7 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
             color: var(--royal-blue);
             margin-bottom: 5px;
         }
-
+         /* Styling for vital values */
         .vital-value {
             font-size: 1.2rem;
             font-weight: bold;
@@ -240,7 +241,7 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
             border-radius: 8px;
             margin-top: 10px;
         }
-
+        /* Styling for the empty state message */
         .empty-state {
             text-align: center;
             padding: 3rem;
@@ -383,7 +384,7 @@ router.get('/emergency-dispatch-summary', async (req, res) => {
                             return 'normal';
                     }
                 };
-
+                <!-- Generate content dynamically -->
                 html += `
                     <div class="emergency-card ${statusClass}">
                         <div class="card-body">
