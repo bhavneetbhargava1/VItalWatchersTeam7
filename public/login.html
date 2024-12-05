@@ -58,21 +58,21 @@
 
 <script>
     const users = [
-        { email: 'john.doe@example.com', userCode: 'A1234' },
-        { email: 'jane.smith@example.com', userCode: 'B5678' },
-        { email: 'alice.johnson@example.com', userCode: 'C9101' },
-        { email: 'robert.brown@example.com', userCode: 'D1123' },
-        { email: 'linda.davis@example.com', userCode: 'E1415' },
-        { email: 'michael.wilson@example.com', userCode: 'F1617' },
-        { email: 'emily.clark@example.com', userCode: 'G1819' },
-        { email: 'david.martinez@example.com', userCode: 'H2021' },
-        { email: 'jessica.lee@example.com', userCode: 'I2223' },
-        { email: 'daniel.taylor@example.com', userCode: 'J2425' },
-        { email: 'george.anderson@example.com', userCode: 'K3031' },
-        { email: 'samantha.clark@example.com', userCode: 'L3233' },
-        { email: 'lisa.roberts@example.com', userCode: 'M3435' },
-        { email: 'brian.nelson@example.com', userCode: 'N3637' },
-        { email: 'nancy.carter@example.com', userCode: 'O3839' }
+        { email: 'john.doe@example.com', userCode: 'A1234', activated: true },
+        { email: 'jane.smith@example.com', userCode: 'B5678', activated: false },
+        { email: 'alice.johnson@example.com', userCode: 'C9101', activated: true },
+        { email: 'robert.brown@example.com', userCode: 'D1123', activated: true },
+        { email: 'linda.davis@example.com', userCode: 'E1415', activated: false },
+        { email: 'michael.wilson@example.com', userCode: 'F1617', activated: true },
+        { email: 'emily.clark@example.com', userCode: 'G1819', activated: false },
+        { email: 'david.martinez@example.com', userCode: 'H2021', activated: true },
+        { email: 'jessica.lee@example.com', userCode: 'I2223', activated: true },
+        { email: 'daniel.taylor@example.com', userCode: 'J2425', activated: false },
+        { email: 'george.anderson@example.com', userCode: 'K3031', activated: true },
+        { email: 'samantha.clark@example.com', userCode: 'L3233', activated: false },
+        { email: 'lisa.roberts@example.com', userCode: 'M3435', activated: true },
+        { email: 'brian.nelson@example.com', userCode: 'N3637', activated: false },
+        { email: 'nancy.carter@example.com', userCode: 'O3839', activated: true }
     ];
 
     document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -83,11 +83,24 @@
         const errorMessage = document.getElementById('errorMessage');
         errorMessage.style.display = 'none';
 
-        const isValidUser = users.find(user => user.email === email && user.userCode === userCode);
+        const user = users.find(user => user.email === email && user.userCode === userCode);
 
-        if (isValidUser) {
-            sessionStorage.setItem('isLoggedIn', true);
-            window.location.href = 'index.html';
+        if (user) {
+            if (user.activated) {
+                sessionStorage.setItem('isLoggedIn', true);
+                window.location.href = 'index.html';
+            } else {
+                const activate = confirm('Your account is not activated. Would you like to activate it now?');
+                if (activate) {
+                    user.activated = true; // Simulate activation
+                    alert('Your account has been activated. You can now log in.');
+                    sessionStorage.setItem('isLoggedIn', true);
+                    window.location.href = 'index.html';
+                } else {
+                    errorMessage.textContent = 'Account activation is required to log in.';
+                    errorMessage.style.display = 'block';
+                }
+            }
         } else {
             errorMessage.textContent = 'Invalid email or user code.';
             errorMessage.style.display = 'block';
