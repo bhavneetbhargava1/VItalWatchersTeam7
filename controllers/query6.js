@@ -1,7 +1,39 @@
+// By: Anagha Krishna, Binal Dhaliwal, Bhavneet Bhargava
+// Group: 7
 const express = require('express');
 const router = express.Router();
 const db = require('../dbConfig');
 
+/**
+ * Query 6: Emergency Dispatch Summary
+ * Purpose:
+ * - Retrieve and display a summary of emergency dispatch records, including patient details,
+ *   alert information, dispatch status, and the most recent vital signs.
+ * - The output helps analyze emergency responses and patient conditions.
+ *
+ * Special Features:
+ * - Joins multiple tables (EMERGENCY_DISPATCH, PATIENTS, ALERTS, PATCH_DEVICE, VITALS)
+ *   to provide a comprehensive view of emergency dispatches and patient health,
+ *   ensuring that all relevant data is fetched in one query.
+ * - Uses a subquery to select the most recent vital signs timestamp for each patient,
+ * ensuring that only the latest available data is displayed.
+ * - Includes logic for color-coded vital signs status (normal, warning, critical)
+ * based on predefined thresholds:
+ * - Normal: Indicates that the patient's vital signs are within acceptable ranges.
+ * - Warning: Indicates a potential issue that may need medical attention but is not
+ *   immediately life-threatening.
+ * - Critical: Indicates vital signs are outside of safe parameters and
+ *   urgent medical intervention is required.
+ * - HTML integration for displaying results in a table format with color-coded cells:
+ * - The results can be displayed using a dynamic HTML table where cells are styled
+ *   with color codes based on the status
+ *   of the vital signs. This allows for a quick visual assessment of patient conditions.
+ * - JavaScript functions can be used to enhance interactivity, such as sorting,
+ *   filtering, and highlighting critical information for better user experience.
+ *
+ * Phase II Queries:
+ * - This file corresponds to Phase II, Query 9.
+ */
 router.get('/emergency-dispatch-summary', async (req, res) => {
     try {
         const sqlQuery = `
