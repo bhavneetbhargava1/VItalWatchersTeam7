@@ -1,3 +1,20 @@
+<!-- VitalWatchers - Login Page -->
+<!-- Developed by Binal Dhaliwal, Anagha Krishna, Bhavneet Bhargava -->
+
+<!--
+    Description:
+    The Login Page of the VitalWatchers project provides a secure entry point for users to access the remote health monitoring system.
+    The page allows users to enter their email and user code to log in, ensuring that only authorized and activated accounts can access
+    the application. If an account is inactive, the user is prompted to activate it. The interface is designed to be user-friendly
+    with a visually appealing design and straightforward form.
+
+    File Flow:
+    - The page starts with a logo and welcoming message in the header, providing a visual representation of the brand.
+    - Users input their email and user code in the form fields.
+    - When the form is submitted, JavaScript checks for matching user credentials and verifies account activation.
+    - If valid and activated, the user is redirected to the main "index.html" page; otherwise, an error message is displayed.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +23,7 @@
     <title>Login - VitalWatchers</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
     <style>
+        /* Define color variables for the brand identity */
         :root {
             --royal-blue: #1d3557;
             --light-blue: #a8dadc;
@@ -14,6 +32,7 @@
             --highlight-blue: #e6f3f5;
         }
 
+        /* Main styling for the body of the webpage */
         body {
             background-color: var(--cream);
             min-height: 100vh;
@@ -22,6 +41,7 @@
             align-items: center;
         }
 
+        /* Styling for the header section that includes the logo and title */
         .header-section {
             background-color: var(--royal-blue);
             padding: 2rem 0;
@@ -31,17 +51,20 @@
             margin-bottom: 2rem;
         }
 
+        /* Logo styling */
         .header-section img {
             height: 150px;
             margin-bottom: 1rem;
         }
 
+        /* Main heading styling */
         .header-section h1 {
             font-size: 3.5rem;
             margin: 0;
             font-weight: bold;
         }
 
+        /* Container for the login form */
         .login-container {
             background-color: #fff;
             padding: 2rem;
@@ -52,6 +75,7 @@
             border: 2px solid var(--royal-blue);
         }
 
+        /* Styling for form groups, inputs, and labels */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -61,11 +85,13 @@
             padding: 0.75rem;
         }
 
+        /* Focus effect for form inputs */
         .form-control:focus {
             border-color: var(--royal-blue);
             box-shadow: 0 0 0 0.2rem rgba(29, 53, 87, 0.25);
         }
 
+        /* Styling for the login button */
         .btn-primary {
             width: 100%;
             background-color: var(--royal-blue);
@@ -74,11 +100,13 @@
             font-weight: bold;
         }
 
+        /* Hover effect for the login button */
         .btn-primary:hover {
             background-color: var(--medium-blue);
             border-color: var(--medium-blue);
         }
 
+        /* Error message styling for invalid login attempts */
         .error-message {
             color: #dc3545;
             font-size: 0.9rem;
@@ -89,6 +117,7 @@
             display: none;
         }
 
+        /* Label styling for form fields */
         label {
             color: var(--royal-blue);
             font-weight: bold;
@@ -97,12 +126,14 @@
     </style>
 </head>
 <body>
+<!-- Header section providing branding information -->
 <div class="header-section">
     <img src="../images/logo.png" alt="VitalWatchers Logo">
     <h1>VitalWatchers</h1>
     <p class="lead">Secure Healthcare Monitoring Access</p>
 </div>
 
+<!-- Login form container -->
 <div class="login-container">
     <h2 class="text-center mb-4" style="color: var(--royal-blue);">Login</h2>
     <form id="loginForm">
@@ -120,6 +151,7 @@
 </div>
 
 <script>
+    // Array of user data for simulating backend validation
     const users = [
         { email: 'john.doe@example.com', userCode: 'A1234', activated: true },
         { email: 'jane.smith@example.com', userCode: 'B5678', activated: false },
@@ -138,21 +170,26 @@
         { email: 'nancy.carter@example.com', userCode: 'O3839', activated: true }
     ];
 
+    // Event listener for form submission
     document.getElementById('loginForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
+        // Retrieve email and user code from form fields
         const email = document.getElementById('email').value;
         const userCode = document.getElementById('userCode').value;
         const errorMessage = document.getElementById('errorMessage');
         errorMessage.style.display = 'none';
 
+        // Find the user based on email and user code
         const user = users.find(user => user.email === email && user.userCode === userCode);
 
         if (user) {
+            // If user exists and is activated, allow login
             if (user.activated) {
                 sessionStorage.setItem('isLoggedIn', true);
                 window.location.href = 'index.html';
             } else {
+                // If user exists but is not activated, prompt for activation
                 const activate = confirm('Your account is not activated. Would you like to activate it now?');
                 if (activate) {
                     user.activated = true;
@@ -160,11 +197,13 @@
                     sessionStorage.setItem('isLoggedIn', true);
                     window.location.href = 'index.html';
                 } else {
+                    // Display error message if user declines activation
                     errorMessage.textContent = 'Account activation is required to log in.';
                     errorMessage.style.display = 'block';
                 }
             }
         } else {
+            // Display error message for invalid email or user code
             errorMessage.textContent = 'Invalid email or user code.';
             errorMessage.style.display = 'block';
         }

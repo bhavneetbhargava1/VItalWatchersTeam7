@@ -1,3 +1,22 @@
+<!-- VitalWatchers - Remote Health Monitoring Website -->
+<!-- Developed by Binal Dhaliwal, Anagha Krishna, Bhavneet Bhargava -->
+
+<!--
+    The index.html file for the VitalWatchers project is a web page that serves as the main interface for the
+    remote health monitoring system. It is designed to provide a user-friendly experience for both patients
+    and healthcare providers, featuring sections such as navigation, problem statement, goals, project objectives,
+    and technical implementation details.
+
+    File Flow:
+    - The page begins with a header section containing the logo and a tagline, providing a professional introduction.
+    - Navigation links allow users to easily switch between different features of the web application.
+    - Cards are used to present content on challenges, motivations, goals, and technical details in a visually
+      appealing and organized manner.
+    - The development team information is available via a modal popup.
+    - JavaScript ensures that only authenticated users can access the page, redirecting others to the login page.
+
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +25,7 @@
     <title>VitalWatchers - Remote Health Monitoring</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
     <style>
-        /* Previous styles remain the same */
+        /* Define color variables for the brand identity */
         :root {
             --royal-blue: #1d3557;
             --light-blue: #a8dadc;
@@ -15,11 +34,13 @@
             --highlight-blue: #e6f3f5;
         }
 
+        /* Styling for the body to set the background color and layout */
         body {
             background-color: var(--cream);
             min-height: 100vh;
         }
 
+        /* Header section styling that contains the logo and project title */
         .header-section {
             background-color: var(--royal-blue);
             padding: 2rem 0;
@@ -27,33 +48,39 @@
             color: var(--cream);
         }
 
+        /* Styling for the logo in the header */
         .header-section img {
             height: 150px;
             margin-bottom: 1rem;
         }
 
+        /* Title styling within the header */
         .header-section h1 {
             font-size: 3.5rem;
             margin: 0;
             font-weight: bold;
         }
 
+        /* Navbar styling for the navigation links */
         .navbar {
             background-color: var(--medium-blue) !important;
             padding: 0.5rem 1rem;
         }
 
+        /* Styling for individual navigation links */
         .nav-link {
             color: var(--cream) !important;
             padding: 0.8rem 1.2rem !important;
             transition: background-color 0.3s ease;
         }
 
+        /* Hover effect for navigation links */
         .nav-link:hover {
             background-color: var(--royal-blue);
             color: var(--light-blue) !important;
         }
 
+        /* Card styling for content sections */
         .card {
             background-color: #fff;
             border-color: var(--royal-blue);
@@ -61,16 +88,19 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
+        /* Card header styling */
         .card-header {
             background-color: var(--royal-blue);
             color: var(--cream);
             font-weight: bold;
         }
 
+        /* Main content container styling */
         .main-content {
             padding: 20px;
         }
 
+        /* Styling for team member information */
         .team-member {
             border-left: 3px solid var(--royal-blue);
             padding: 15px;
@@ -79,6 +109,7 @@
             border-radius: 5px;
         }
 
+        /* Feature card styling for the problem statement and objectives */
         .feature-card {
             background-color: var(--highlight-blue);
             border-radius: 8px;
@@ -87,6 +118,7 @@
             height: 100%;
         }
 
+        /* Styling for benefit items under goals and motivations */
         .benefit-item {
             background-color: var(--highlight-blue);
             padding: 15px;
@@ -95,10 +127,12 @@
             border-left: 4px solid var(--royal-blue);
         }
 
+        /* Section for project goals */
         .goal-section {
             margin-bottom: 20px;
         }
 
+        /* Header styling within goal sections */
         .goal-section h5 {
             color: var(--royal-blue);
             margin-bottom: 15px;
@@ -106,13 +140,14 @@
     </style>
 </head>
 <body>
+<!-- Header section providing branding information -->
 <div class="header-section">
     <img src="../images/logo.png" alt="VitalWatchers Logo">
     <h1>VitalWatchers</h1>
     <p class="lead">Revolutionizing Remote Healthcare Monitoring</p>
 </div>
 
-<!-- Navigation -->
+<!-- Navigation bar with links to different sections of the application -->
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -147,7 +182,7 @@
     </div>
 </nav>
 
-<!-- Main Content -->
+<!-- Main content section -->
 <div class="container main-content">
     <!-- Problem Statement Card -->
     <div class="card">
@@ -179,7 +214,7 @@
         </div>
     </div>
 
-    <!-- Goals and Motivations -->
+    <!-- Goals and Motivations Card -->
     <div class="card">
         <div class="card-header">
             <h3>Goals and Motivations</h3>
@@ -230,7 +265,7 @@
         </div>
     </div>
 
-    <!-- Project Objectives -->
+    <!-- Project Objectives Card -->
     <div class="card">
         <div class="card-header">
             <h3>Project Objectives</h3>
@@ -290,7 +325,7 @@
         </div>
     </div>
 
-    <!-- Technical Implementation remains the same -->
+    <!-- Technical Implementation Card -->
     <div class="card">
         <div class="card-header">
             <h3>Technical Implementation</h3>
@@ -312,7 +347,7 @@
     </div>
 </div>
 
-<!-- Team Modal remains the same -->
+<!-- Team Information -->
 <div class="modal fade" id="teamModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -349,8 +384,10 @@
     </div>
 </div>
 
+<!-- JavaScript for Bootstrap and session management -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Check if the user is logged in by checking session storage
     const isLoggedIn = sessionStorage.getItem('isLoggedIn');
     if (!isLoggedIn) {
         window.location.href = 'login.html';
