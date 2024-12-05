@@ -1,8 +1,27 @@
+// By: Anagha Krishna, Binal Dhaliwal, Bhavneet Bhargava
+// Group: 7
 const express = require('express');
 const router = express.Router();
-const pool = require('../dbConfig'); // Import the database pool
+const pool = require('../dbConfig');
 
-// Route to fetch device status overview
+/**
+ * Query 4: Device Status Overview
+ *
+ * Purpose:
+ * - This route handles requests to fetch an overview of patch device statuses.
+ * - Provides details such as device ID, associated patient information, device status,
+ *   vital status, thresholds, and monitoring location.
+ *
+ * Special Features:
+ * - Joins the PATCH_DEVICE table with the PATIENTS table to include patient names
+ *   and relevant details alongside the device information.
+ * - Orders results by Device_ID for clarity and structured output.
+ * - Returns data in JSON format for easy integration with frontend systems.
+ *
+ * Phase II Queries:
+ * - This file corresponds to **Phase II, Query 4.
+ */
+
 router.get('/device-status-overview', async (req, res) => {
     try {
         const sqlQuery = `
@@ -33,3 +52,4 @@ router.get('/device-status-overview', async (req, res) => {
 });
 
 module.exports = router;
+
