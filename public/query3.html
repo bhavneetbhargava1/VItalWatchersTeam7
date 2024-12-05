@@ -1,12 +1,64 @@
 <!DOCTYPE html>
+<!--
+/**
+ * High-Risk Patient Monitor Dashboard (Phase II - Query 3)
+ *
+ * Authors: Anagha Krishna, Binal Dhaliwal, Bhavneet Bhargava
+ * Group: 7
+ *
+ * Purpose:
+ * - Provides a real-time monitoring interface for high-risk patients
+ * - Displays comprehensive vital signs with color-coded thresholds
+ * - Shows unresolved CRITICAL or HIGH alerts for immediate attention
+ * - Enables healthcare providers to quickly identify and prioritize at-risk patients
+ *
+ * Special Features:
+ * 1. Interactive Data Management:
+ *    - Real-time search functionality across all fields
+ *    - Dynamic sorting by multiple criteria
+ *    - Debounced search for performance optimization
+ *
+ * 2. Visual Risk Indicators:
+ *    - Color-coded vital signs based on threshold values:
+ *      * Blood Pressure: Normal (90-120), Elevated (121-129), High (130-139),
+ *        Very High (140-180), Critical (>180)
+ *      * Heart Rate: Normal (60-100), Low (<60), High (>100)
+ *      * Body Temperature: Normal (96.9-100.4), Low (<96.9), High (≥100.5)
+ *      * Oxygen Saturation: Normal (≥95), Low (90-94.9), Critical (<90)
+ *      * Breathing Rate: Normal (≤20), High (20.1-30), Critical (>30)
+ *
+ * 3. UI/UX Enhancements:
+ *    - 3D transform effects for better visual hierarchy
+ *    - Smooth animations for data loading and interactions
+ *    - Responsive design with mobile optimization
+ *    - Loading states and error handling
+ *
+ * Implementation Details:
+ * - Fetches data from the /api/query3/high-risk-patients endpoint
+ * - Uses CSS variables for consistent theming
+ * - Implements debounced search for performance
+ * - Handles multiple data sorting scenarios
+ * - Provides visual feedback for data loading and errors
+ *
+ * Related Files:
+ * - Backend: query3.js (implements the API endpoint)
+ * - Database: Uses tables PATIENTS, ALERTS, VITALS, PATCH_DEVICE,
+ *   HEALTH_SUMMARY, PROVIDERS, and VITAL_THRESHOLDS
+ *
+ * Note: This file implements the frontend interface for Phase II Query 3,
+ * focusing on comprehensive monitoring of high-risk patients and their vital signs.
+ */
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>High-Risk Patient Monitor</title>
+    <!-- External CSS Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        /* Color scheme variables for consistent theming */
         :root {
             --royal-blue: #1d3557;
             --light-blue: #a8dadc;
@@ -255,7 +307,9 @@
 </head>
 <body>
 
+<!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- Main Content Container -->
     <div class="container">
         <a class="navbar-brand" href="#">VitalWatchers</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -274,6 +328,7 @@
     </div>
 </nav>
 
+<!-- Data Table Container -->
 <div class="container">
     <h1 class="text-center mb-4">High-Risk Patient Monitor</h1>
     <p class="text-center mb-4">Below is the list of patients flagged as high-risk based on their vitals and alert levels.</p>
@@ -329,12 +384,14 @@
     </div>
 </div>
 
+<!-- Footer -->
 <footer class="footer py-4 mt-4">
     <div class="container text-center">
         <p class="mb-0">VitalWatchers © 2024 - Remote Monitoring for Healthcare Providers</p>
     </div>
 </footer>
 
+<!-- Main Application Script -->
 <script>
     let allData = [];
     let sortConfig = {
@@ -343,6 +400,9 @@
     };
     let searchTerm = '';
 
+    /**
+     * Loads patient data from the API and initializes the display
+     */
     async function loadData() {
         const tableBody = document.getElementById('highRiskPatientsTable');
         const loadingIndicator = document.getElementById('loadingIndicator');
@@ -367,6 +427,11 @@
         }
     }
 
+    /**
+     * Filters data based on search term
+     * @param {Array} data - Array of patient records
+     * @returns {Array} - Filtered patient records
+     */
     function filterData(data) {
         if (!searchTerm) return data;
 
@@ -385,6 +450,10 @@
         });
     }
 
+    /**
+     * Renders the filtered and sorted data to the table
+     * Includes color coding for vital signs based on thresholds
+     */
     function renderFilteredAndSortedData() {
         const tableBody = document.getElementById('highRiskPatientsTable');
         tableBody.innerHTML = '';

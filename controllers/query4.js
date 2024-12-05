@@ -17,6 +17,7 @@ const pool = require('../dbConfig');
  *   and relevant details alongside the device information.
  * - Orders results by Device_ID for clarity and structured output.
  * - Returns data in JSON format for easy integration with frontend systems.
+ * - The remaining is discussed in the corresponding HTML file (query4.html).
  *
  * Phase II Queries:
  * - This file corresponds to **Phase II, Query 4.

@@ -19,6 +19,7 @@ const pool = require('../dbConfig');
  * - Limits the output to the top 10 results for streamlined data presentation.
  * - Processes data to include a combined patient name and ensures alert timestamps are formatted in ISO 8601 for frontend compatibility.
  * - Returns data in JSON format for easy integration with frontend systems.
+ * - The remaining is discussed in the corresponding HTML file (query3.html).
  *
  * Phase II Queries:
  * - This file corresponds to **Phase II, Query 5.

@@ -1,9 +1,43 @@
 <!DOCTYPE html>
+<!--
+/**
+ * Active Alert Analysis Dashboard (Phase II - Query 2)
+ *
+ * Authors: Anagha Krishna, Binal Dhaliwal, Bhavneet Bhargava
+ * Group: 7
+ *
+ * Purpose:
+ * - Provides a real-time dashboard interface for monitoring unresolved alerts from active patch devices
+ * - Displays critical alert information in an easily scannable card-based layout
+ * - Enables healthcare providers to quickly identify and respond to patient alerts
+ *
+ * Special Features:
+ * - Responsive card-based UI with hover effects for better interaction
+ * - Real-time search functionality for filtering alerts by patient name
+ * - Visual status indicators using color-coded chips
+ * - Clean and accessible layout following healthcare UI best practices
+ * - Bootstrap integration with custom styling for consistent look and feel
+ *
+ * Implementation Details:
+ * - Uses fetch API to retrieve data from the /api/query2/active-alerts endpoint
+ * - Implements client-side search filtering
+ * - Dynamic rendering of alert cards with status-based styling
+ * - Error handling with user-friendly messages
+ *
+ * Related Files:
+ * - Backend: query2.js (implements the API endpoint)
+ * - Database: Uses tables ALERTS, PATIENTS, and PATCH_DEVICE
+ *
+ * Note: This file implements the frontend interface for Phase II Query 2,
+ * focusing on active alert visualization and management.
+ */
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Active Alert Analysis</title>
+    <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
     <style>
         :root {
@@ -183,6 +217,7 @@
 </head>
 <body>
 
+<!-- Navigation Component -->
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="/">VitalWatchers</a>
@@ -199,29 +234,39 @@
     </div>
 </nav>
 
+<!-- Main Content Container -->
 <div class="container">
     <h1 class="text-center mb-4">Active Alert Analysis</h1>
     <p class="text-center text-muted mb-4">Displaying unresolved alerts for patients with active patch devices.</p>
 
+    <!-- Search Component -->
     <div class="search-container">
         <input type="text" id="searchInput" class="form-control search-input" placeholder="Search by Patient Name...">
     </div>
 
+    <!-- Dynamic Alert Cards Container -->
     <div id="alertsContainer" class="alerts-container">
-        <!-- Bubbles will be added here -->
     </div>
 </div>
 
+<!-- Footer Component -->
 <footer class="footer py-4">
     <div class="container text-center">
         <p class="mb-0">VitalWatchers © 2024 - Remote Monitoring for Healthcare Providers</p>
     </div>
 </footer>
 
+<!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 <script>
     let allData = [];
 
+    /**
+     * Initialize the dashboard when the DOM is loaded
+     * - Fetches initial alert data
+     * - Sets up search functionality
+     * - Handles error states
+     */
     document.addEventListener('DOMContentLoaded', async () => {
         const searchInput = document.getElementById('searchInput');
 
@@ -245,6 +290,11 @@
         }
     });
 
+    /**
+     * Determines the appropriate status class for styling
+     * @param {string} status - The device status
+     * @returns {string} CSS class name for styling
+     */
     function getStatusClass(status) {
         status = status.toLowerCase();
         if (status.includes('active')) return 'status-active';
@@ -252,6 +302,10 @@
         return 'status-pending';
     }
 
+    /**
+     * Renders alert bubbles in the container
+     * @param {Array} data - Array of alert objects to render
+     */
     function renderBubbles(data) {
         const container = document.getElementById('alertsContainer');
         container.innerHTML = '';

@@ -1,9 +1,67 @@
 <!DOCTYPE html>
+<!--
+/**
+ * High Heart Rate Analysis Dashboard (Phase II - Query 5)
+ *
+ * Authors: Anagha Krishna, Binal Dhaliwal, Bhavneet Bhargava
+ * Group: 7
+ *
+ * Purpose:
+ * - Visualizes data for patients with elevated heart rates
+ * - Provides interactive analysis of heart rate alerts
+ * - Enables healthcare providers to monitor and identify critical cases
+ *
+ * Special Features:
+ * 1. Data Visualization:
+ *    - Interactive bar chart showing heart rates across patients
+ *    - Color-coded bars based on alert severity
+ *    - Responsive chart with tooltip interactions
+ *
+ * 2. Real-time Filtering:
+ *    - Search functionality across multiple fields:
+ *      * Patient ID
+ *      * Patient Name
+ *      * Heart Rate
+ *      * Alert Type
+ *    - Debounced search for performance
+ *
+ * 3. Visual Enhancements:
+ *    - Loading animations with spinner
+ *    - Smooth transitions for UI elements
+ *    - Color-coded alert badges:
+ *      * Red: High alerts
+ *      * Yellow: Medium/Elevated alerts
+ *    - Responsive table with hover effects
+ *
+ * 4. Data Display:
+ *    - Formatted timestamps
+ *    - Styled patient IDs
+ *    - Heart rate values with BPM units
+ *    - Empty state handling
+ *
+ * Implementation Details:
+ * - Uses ECharts for data visualization
+ * - Implements debounced search
+ * - Handles window resize events
+ * - Manages loading states
+ * - Processes and formats data for display
+ *
+ * Related Files:
+ * - Backend: query5.js (implements the API endpoint)
+ * - Database: Uses tables PATIENTS, VITALS, and ALERTS
+ *
+ * Note: This file implements the frontend interface for Phase II Query 5,
+ * focusing on heart rate monitoring and alert analysis.
+ */
+-->
 <html lang="en">
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VitalWatchers - High Heart Rate Analysis</title>
+
+    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
     <style>
         :root {
@@ -205,10 +263,12 @@
     </style>
 </head>
 <body>
+<!-- Loading Overlay -->
 <div class="loading-overlay">
     <div class="loading-spinner"></div>
 </div>
 
+<!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="#">VitalWatchers</a>
@@ -225,6 +285,7 @@
     </div>
 </nav>
 
+<!-- Hero Section -->
 <div class="hero-section">
     <div class="container text-center">
         <h1 class="display-4">High Heart Rate Analysis</h1>
@@ -232,6 +293,7 @@
     </div>
 </div>
 
+<!-- Main Content -->
 <div class="container">
     <div class="search-container">
         <div class="row">
@@ -266,6 +328,7 @@
     </div>
 </div>
 
+<!-- Footer -->
 <footer class="footer py-4 mt-4">
     <div class="container text-center">
         <p class="mb-0">VitalWatchers © 2024 - Remote Monitoring for Healthcare Providers</p>
@@ -279,6 +342,10 @@
     let filteredData = [];
     let myChart = null;
 
+    /**
+     * Fetches heart rate data from the API
+     * Handles error states and updates UI accordingly
+     */
     async function fetchData() {
         try {
             const response = await fetch('/api/query5/high-heart-rate-data');
@@ -298,6 +365,10 @@
         }
     }
 
+    /**
+     * Filters data based on search term
+     * @param {string} searchTerm - User input search term
+     */
     function filterData(searchTerm) {
         if (!searchTerm) {
             filteredData = [...data];
@@ -315,12 +386,18 @@
         updateUI();
     }
 
+    /**
+     * Initializes ECharts instance
+     */
     function initChart() {
         const chartDom = document.getElementById('chart-container');
         myChart = echarts.init(chartDom);
         updateChart();
     }
 
+    /**
+     * Updates chart with current filtered data
+     */
     function updateChart() {
         if (!myChart) return;
 
@@ -362,6 +439,10 @@
         myChart.setOption(option);
     }
 
+    /**
+     * Updates table with current filtered data
+     * Includes formatting and styling of data
+     */
     function updateTable() {
         const container = document.getElementById('data-container');
         container.innerHTML = '';
@@ -403,6 +484,9 @@
         container.appendChild(table);
     }
 
+    /**
+     * Updates both chart and table displays
+     */
     function updateUI() {
         updateChart();
         updateTable();

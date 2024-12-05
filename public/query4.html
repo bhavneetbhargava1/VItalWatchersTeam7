@@ -1,9 +1,58 @@
 <!DOCTYPE html>
+<!--
+/**
+ * Device Status Overview Dashboard (Phase II - Query 4)
+ *
+ * Authors: Anagha Krishna, Binal Dhaliwal, Bhavneet Bhargava
+ * Group: 7
+ *
+ * Purpose:
+ * - Provides a comprehensive overview of all patch devices and their current status
+ * - Enables monitoring of device status, vital status, and patient associations
+ * - Allows healthcare providers to track device locations and threshold settings
+ *
+ * Special Features:
+ * 1. Interactive Filtering:
+ *    - Status-based filtering (Active/Inactive/Maintenance)
+ *    - Real-time patient name search
+ *    - Combined filtering capabilities
+ *
+ * 2. Visual Status Indicators:
+ *    - Color-coded device status:
+ *      * Green: Active devices
+ *      * Red: Inactive devices
+ *      * Orange: Devices under maintenance
+ *    - Enhanced visual hierarchy with 3D effects
+ *    - Animated row transitions
+ *
+ * 3. UI/UX Features:
+ *    - Responsive table with horizontal scroll
+ *    - Dynamic empty state handling
+ *    - Error state management
+ *    - Loading animations
+ *    - Interactive hover effects
+ *
+ * Implementation Details:
+ * - Fetches data from /api/query4/device-status-overview endpoint
+ * - Uses CSS variables for consistent theming
+ * - Implements real-time filtering
+ * - Handles multiple data display scenarios
+ *
+ * Related Files:
+ * - Backend: query4.js (implements the API endpoint)
+ * - Database: Uses tables PATCH_DEVICE and PATIENTS
+ *
+ * Note: This file implements the frontend interface for Phase II Query 4,
+ * focusing on device status monitoring and management.
+ */
+-->
 <html lang="en">
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Device Status Overview</title>
+    <!-- External Stylesheet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sketchy/bootstrap.min.css">
     <style>
         :root {
@@ -261,6 +310,7 @@
 </head>
 <body>
 
+<!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="#">VitalWatchers</a>
@@ -280,6 +330,7 @@
     </div>
 </nav>
 
+<!-- Main Content -->
 <div class="main-content">
     <div class="container">
         <h1 class="text-center mb-4">Device Status Overview</h1>
@@ -323,6 +374,7 @@
     </div>
 </footer>
 
+<!-- Application Logic -->
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
         const tableBody = document.getElementById('deviceStatusTable');
@@ -331,6 +383,9 @@
 
         let allDevices = [];
 
+        /**
+         * Initialize data and event listeners
+         */
         try {
             const response = await fetch('/api/query4/device-status-overview');
             allDevices = await response.json();
@@ -351,6 +406,10 @@
             showError('Failed to load device status data. Please try again later.');
         }
 
+        /**
+         * Filter data based on status and search term
+         * @returns {Array} Filtered device data
+         */
         function filterData() {
             const status = statusFilter.value.toLowerCase();
             const searchTerm = searchInput.value.toLowerCase().trim();
@@ -369,6 +428,11 @@
             });
         }
 
+        /**
+         * Get appropriate CSS class for status styling
+         * @param {string} status Device status
+         * @returns {string} CSS class name
+         */
         function getStatusClass(status) {
             status = status.toLowerCase();
             if (status === 'active') return 'status-active';
@@ -377,6 +441,10 @@
             return '';
         }
 
+        /**
+         * Display error message in table
+         * @param {string} message Error message to display
+         */
         function showError(message) {
             tableBody.innerHTML = `
                 <tr>
@@ -389,6 +457,10 @@
             `;
         }
 
+        /**
+         * Render device data table
+         * @param {Array} data Device data to display
+         */
         function renderTable(data) {
             tableBody.innerHTML = '';
 
