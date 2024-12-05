@@ -1,8 +1,32 @@
+// By: Anagha Krishna, Binal Dhaliwal, Bhavneet Bhargava
+// Group: 7
 const express = require('express');
 const router = express.Router();
-const pool = require('../dbConfig'); // Import the database pool
+const pool = require('../dbConfig');
 
-// Route to fetch high-risk patient data
+/**
+ * Query 3: High-Risk Patients
+ *
+ * Purpose:
+ * - This route handles requests to fetch detailed information about high-risk patients.
+ * - High-risk patients are identified based on unresolved alerts of type 'CRITICAL' or 'HIGH'
+ *   and vitals exceeding critical thresholds.
+ *
+ * Special Features:
+ * - Includes patient details, vital statistics, alert level, and provider information.
+ * - Checks if vital signs exceed thresholds using subqueries for dynamic threshold values.
+ * - Uses **CASE** statements to evaluate whether vital signs exceed critical thresholds,
+ *   providing clear flags for each vital category.
+ * - Joins multiple tables (PATIENTS, ALERTS, VITALS, PATCH_DEVICE, HEALTH_SUMMARY, PROVIDERS)
+ *   to provide a comprehensive view of high-risk patients.
+ * - Filters only unresolved alerts to ensure relevance.
+ * - Orders results by alert timestamp in descending order for prioritization.
+ * - Returns data in JSON format for easy integration with frontend systems.
+ * - The remaining is discussed in the corresponding HTML file (query3.html).
+ *
+ * Phase II Queries:
+ * - This file corresponds to **Phase II, Query 10.
+ */
 router.get('/high-risk-patients', async (req, res) => {
     try {
         const sqlQuery = `
@@ -69,10 +93,8 @@ router.get('/high-risk-patients', async (req, res) => {
         `;
 
 
-        // Execute the query
         const [rows] = await pool.query(sqlQuery);
 
-        // Return the results as JSON
         res.status(200).json(rows);
     } catch (err) {
         console.error('Error executing query:', err.message);
@@ -81,6 +103,8 @@ router.get('/high-risk-patients', async (req, res) => {
 });
 
 module.exports = router;
+
+
 
 
 

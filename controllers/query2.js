@@ -1,8 +1,28 @@
+// By: Anagha Krishna, Binal Dhaliwal, Bhavneet Bhargava
+// Group: 7
 const express = require('express');
 const router = express.Router();
-const pool = require('../dbConfig'); // Import the database pool
+const pool = require('../dbConfig');
 
-// Route to handle Query 2 (Active Alert Analysis)
+/**
+ * Query 2: Active Alerts
+ *
+ * Purpose:
+ * - This route handles requests to fetch information about unresolved alerts (active alerts).
+ * - It provides details such as alert type, patient name, timestamp of the alert,
+ *   and the status of the patch device associated with the alert.
+ *
+ * Special Features:
+ * - Filters only unresolved alerts (A.Resolved = 'F').
+ * - Ensures the associated patch device is active (PD.Patch_status = 'Active').
+ * - Orders results by alert timestamp in descending order for easy prioritization of recent alerts.
+ * - Returns data in JSON format for easy frontend integration.
+ * - The remaining is discussed in the corresponding HTML file (query2.html).
+ *
+ * Note:
+ * - This file (query2.js) implements Phase II Query 2.
+ */
+
 router.get('/active-alerts', async (req, res) => {
     try {
         const sqlQuery = `
@@ -22,10 +42,10 @@ router.get('/active-alerts', async (req, res) => {
                 A.Time_stamp DESC;
         `;
 
-        // Execute the query
+
         const [rows] = await pool.query(sqlQuery);
 
-        // Return results as JSON
+
         res.status(200).json(rows);
     } catch (err) {
         console.error('Error executing query:', err.message);
@@ -34,3 +54,5 @@ router.get('/active-alerts', async (req, res) => {
 });
 
 module.exports = router;
+
+
