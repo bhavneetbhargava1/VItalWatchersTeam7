@@ -172,7 +172,38 @@ router.get('/patient-authorization-summary', async (req, res) => {
             border-radius: 10px;
             margin: 1rem 0;
         }
+
+        /* Search Bar styling */
+        .search-bar {
+            margin-bottom: 1.5rem;
+        }
     </style>
+    <script>
+        function searchTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('patientTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const cells = row.getElementsByTagName('td');
+                let match = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j]) {
+                        const cellValue = cells[j].textContent || cells[j].innerText;
+                        if (cellValue.toLowerCase().indexOf(filter) > -1) {
+                            match = true;
+                            break;
+                        }
+                    }
+                }
+
+                row.style.display = match ? '' : 'none';
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -188,8 +219,12 @@ router.get('/patient-authorization-summary', async (req, res) => {
 <div class="container">
     <h1 class="page-title">Patient Authorization and Health Summary</h1>
 
+    <div class="search-bar">
+        <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control" placeholder="Search for patients...">
+    </div>
+
     <div class="table-container">
-        <table class="table">
+        <table class="table" id="patientTable">
             <thead>
                 <tr>
                     <th>Authorization</th>
@@ -288,7 +323,3 @@ router.get('/patient-authorization-summary', async (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
